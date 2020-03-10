@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import TelaHome from './TelaHome';
 import TelaConsumidor from './TelaConsumidor';
 import TelaFornecedor from './TelaFornecedor';
+import Carrinho from './Carrinho';
 
 const styles = {
 	root: {
@@ -36,19 +37,9 @@ class AppContainer extends React.Component {
 
 	render() {
 
-		const botoesHome = (
-			<div>
-				<Button color='secondary' onClick={() => this.mudaBotao('consumidor')}>
-					Consumidor
-				</Button>
-				<Button color='secondary' onClick={() => this.mudaBotao('fornecedor')}>
-					Fornecedor
-				</Button>
-			</div>
-		)
-
 		const botoesConsumidor = (
 			<div>
+				<Button color='secondary' onClick={() => this.mudaBotao('carrinho')}>Carrinho</Button>
 				<Button color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
 			</div>
 		)
@@ -59,11 +50,16 @@ class AppContainer extends React.Component {
 			</div>
 		)
 
+		const botoesCarrinho = (
+			<div>
+				<Button color='secondary' onClick={() => this.mudaBotao('consumidor')}>VOLTAR</Button>
+			</div>
+		)
+
 		let botoes
 		let telaAtual
 		switch (this.state.botaoAtual) {
 			case 'home':
-				botoes = botoesHome
 				telaAtual = <TelaHome funcao={this.mudaBotao}/>
 				break;
 			case 'consumidor':
@@ -74,8 +70,11 @@ class AppContainer extends React.Component {
 				botoes = botoesFornecedor
 				telaAtual = <TelaFornecedor/>
 				break
+			case 'carrinho':
+				botoes = botoesCarrinho
+				telaAtual = <Carrinho/>
+				break
 			default:
-				botoes = botoesHome
 				telaAtual = <TelaHome funcao={this.mudaBotao}/>
 				break;
 		}
