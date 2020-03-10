@@ -26,7 +26,7 @@ class AppContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			botaoAtual: ''
+			botaoAtual: 'fornecedor'
 		}
 	}
 
