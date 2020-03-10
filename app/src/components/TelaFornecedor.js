@@ -17,6 +17,22 @@ const Wrapper = styled.div`
 	align-items: center;
 	padding: 1rem;
 `
+const DivSuperior = styled.div`
+display: flex;
+margin: 2rem;
+`
+const DivTextField = styled.div`
+display: flex;
+flex-direction: column;
+margin-right: 2vw;
+width: 100%;
+`
+const DivForm = styled.div`
+display: flex;
+flex-direction: column;
+margin: auto;
+`
+
 
 class TelaFornecedor extends React.Component {
 	constructor(props) {
@@ -116,6 +132,8 @@ class TelaFornecedor extends React.Component {
 		console.log(this.state.dadosOk)
 		return <Wrapper>
 			<h1>Fornecedor</h1>
+      <DivSuperior>
+      <DivTextField>
 			<TextField
 				required
 				error={this.state.inputNomeOK}
@@ -172,6 +190,8 @@ class TelaFornecedor extends React.Component {
 				margin="normal"
 				variant="outlined"
 			/>
+      </DivTextField>
+      <DivForm>
 			<FormControl required error={this.state.metodoPgOk} component="fieldset">
 				<FormLabel component="legend">Formas de Pagamento</FormLabel>
 				<FormGroup>
@@ -207,6 +227,8 @@ class TelaFornecedor extends React.Component {
 					/>
 				</FormGroup><FormHelperText>*CUIDADO: Pagamentos em dinheiro exigem encontro pessoal </FormHelperText>
 			</FormControl>
+      </DivForm>
+      </DivSuperior>
 			<Button variant='contained' color='primary' size='large' onClick={this.verificaDados}>
 				Cadastrar
 			</Button>
