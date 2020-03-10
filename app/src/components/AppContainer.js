@@ -66,8 +66,8 @@ class AppContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			botaoAtual: '',
-			pesquisa: ''
+			botaoAtual: 'consumidor',
+			pesquisa: '',
 		}
 	}
 
