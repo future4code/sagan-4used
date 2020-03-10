@@ -113,18 +113,14 @@ class AppContainer extends React.Component {
 		const botoesFornecedor = (
 			<>
 				<div className={classes.grow} />
-				<div>
-					<Button color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
-				</div>
+				<Button color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
 			</>
 		)
 
 		const botoesCarrinho = (
 			<>
 				<div className={classes.grow} />
-				<div>
-					<Button color='secondary' onClick={() => this.mudaBotao('consumidor')}>VOLTAR</Button>
-				</div>
+				<Button color='secondary' onClick={() => this.mudaBotao('consumidor')}>VOLTAR</Button>
 			</>
 		)
 
@@ -154,7 +150,7 @@ class AppContainer extends React.Component {
 		return <div>
 			<AppBar position='static' color='primary'>
 				<Toolbar>
-					<img src={require('../img/logo.png')} width='50' alt='logo'/>
+					<img src={require('../img/logo.png')} width='50' alt='logo' />
 					{botoes}
 				</Toolbar>
 			</AppBar>
