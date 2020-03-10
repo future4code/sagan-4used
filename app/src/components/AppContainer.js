@@ -66,12 +66,19 @@ class AppContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			botaoAtual: ''
+			botaoAtual: '',
+			pesquisa: ''
 		}
 	}
 
 	mudaBotao = (pagina) => {
 		this.setState({ botaoAtual: pagina })
+	}
+
+	mudaPesquisa = (event) => {
+		const digitado = event.target.value
+		this.setState({ pesquisa: digitado })
+		// passar o resultado dessa pesquisa como props
 	}
 
 	render() {
@@ -87,6 +94,8 @@ class AppContainer extends React.Component {
 					</div>
 					<InputBase
 						placeholder="Pesquisar..."
+						value={this.state.pesquisa}
+						onChange={this.mudaPesquisa}
 						classes={{
 							root: classes.inputRoot,
 							input: classes.inputInput,
@@ -142,12 +151,10 @@ class AppContainer extends React.Component {
 				break;
 		}
 
-
-
 		return <div>
 			<AppBar position='static' color='primary'>
 				<Toolbar>
-					<img src={require('../img/logo.png')} width='50' />
+					<img src={require('../img/logo.png')} width='50' alt='logo'/>
 					{botoes}
 				</Toolbar>
 			</AppBar>
