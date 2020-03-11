@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 
 import TextField from "@material-ui/core/TextField";
 import Checkbox from '@material-ui/core/Checkbox';
@@ -9,11 +10,6 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-
 
 
 const Wrapper = styled.div`
@@ -49,6 +45,7 @@ class TelaFornecedor extends React.Component {
 			inputQtdParcelas: '',
 			inputCategoria: '',
 			inputDescricao: '',
+			metodoPgArray:[],
 
 			inputNomeOK: false,
 			inputFotoUrlOK: false,
@@ -73,7 +70,6 @@ class TelaFornecedor extends React.Component {
 		this.setState({
 			[event.target.name]: event.target.value
 		})
-		console.log(event.target)
 	}
 
 	atualizaCheckBox = nomeInput => event => {
@@ -120,8 +116,11 @@ class TelaFornecedor extends React.Component {
 		})
 
 		console.log(dadosOk)
-		this.geraArrayPagamentos()
-
+		if (dadosOk){
+			this.geraArrayPagamentos()
+		} else {
+			window.alert('Preencha todos os dados')
+		}
 	}
 
 	geraArrayPagamentos = () => {
@@ -131,8 +130,32 @@ class TelaFornecedor extends React.Component {
 				arrayPagamentos.push(`${elemento}`)
 			}
 		})
+		this.criaRegistroProduto(arrayPagamentos)
 		console.log(arrayPagamentos)
 	}
+
+	criaRegistroProduto = (arrayPagamento) =>{
+		let dataToSend = {
+			name:this.state.inputNome,
+			description: this.state.inputDescricao,
+			price: Number(this.state.inputPreco),
+			paymentMethod: arrayPagamento,
+			category: this.state.inputCategoria,
+			photos:[this.state.inputFotoUrl],
+			installments:Number(this.state.inputQtdParcelas)
+		}
+
+		const request = axios.post('https://us-central1-future-apis.cloudfunctions.net/fourUsed/products',dataToSend)
+		request.then(response => {
+			console.log(response.status)
+      console.log(response.statusText)
+      window.alert('Produto cadastrado com sucesso!')
+		}).catch(error=> {
+			console.log(error.response.status)
+      console.log(error.response.data.message)
+		})
+	}
+
 
 	render() {
 		console.log(this.state.dadosOk)
