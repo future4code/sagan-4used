@@ -10,7 +10,11 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
 	card: {
-		maxWidth: 345,
+        maxWidth: 345,
+        display: "flex",
+        "flex-direction": "column",
+        "justify-content": "space-between",
+        "text-align": "center",
 	},
 	media: {
 		objectFit: 'cover',

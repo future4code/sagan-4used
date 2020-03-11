@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import axios from 'axios'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import ConteudoCartao from './ConteudoCartao';
@@ -41,22 +42,59 @@ margin-bottom: 8vh;
 padding: 1vh 1vw;
 `
 
+const baseURL = `https://us-central1-future-apis.cloudfunctions.net/fourUsed`
+
 class TelaConsumidor extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
+			listaDeProdutosState: [],
+			categoriaAtualState: '',
 		}
+	}
+
+	componentDidMount(){
+		//executa a funcao pegarProdutos quando a TelaConsumidor abre, mostrando todos os produtos
+		//dentro do grid
+		this.pegarProdutos()
+	}
+
+	pegarProdutos = async () =>{
+		try{	
+			const response = await axios.get(`${baseURL}/products`)
+			//A linha acima pega a informacao do GET da API
+
+			const listaDeProdutosVar = response.data.products
+			//Definida uma variavel para armazenar as informacoes dentro do Response -> Data -> Products
+			//Exatamente onde estao os dados dos produtos da API
+
+			this.setState({
+				listaDeProdutosState: listaDeProdutosVar
+				//Pega as informacoes do response.data.products e as armazena no state, para podermos
+				//as utilizar com menos chance de erros.
+			})
+		}
+		catch(error){
+			console.log(error)
+			alert("Houve um erro na busca dos produtos.")
+		}
+	}
+
+	escolherCategoria = (categoria) => {
+		this.setState({
+			categoriaAtualState: categoria,
+		})
 	}
 
 	render() {
 		return (
 			<Wrapper>
 				<CategoryFilterDiv>
-					<Button variant="contained" color="secondary" size="large">Categoria1</Button>
-					<Button variant="contained" color="secondary" size="large">Categoria2</Button>
-					<Button variant="contained" color="secondary" size="large">Categoria3</Button>
-					<Button variant="contained" color="secondary" size="large">Categoria4</Button>
-					<Button variant="contained" color="secondary" size="large">Categoria5</Button>
+					<Button onClick={()=> this.escolherCategoria("roupas")} variant="contained" color="secondary" size="large">Roupas</Button>
+					<Button onClick={()=> this.escolherCategoria("artigosDeDecoracao")} variant="contained" color="secondary" size="large">Artigos de decoração</Button>
+					<Button onClick={()=> this.escolherCategoria("calcados")} variant="contained" color="secondary" size="large">Calçados</Button>
+					<Button onClick={()=> this.escolherCategoria("eletronicos")} variant="contained" color="secondary" size="large">Eletrônicos</Button>
+					<Button onClick={()=> this.escolherCategoria("moveis")} variant="contained" color="secondary" size="large">Móveis</Button>
 				</CategoryFilterDiv>
 
 				<MainDiv>
@@ -108,7 +146,19 @@ class TelaConsumidor extends React.Component {
 					</ValuesContainer>
 
 					<CardsContainer>
-						<ConteudoCartao />
+						{this.state.listaDeProdutosState.map((produto, index) => (
+							<ConteudoCartao
+								key={index}
+								id={produto.id}
+								category={produto.category}
+								price={produto.price}
+								description={produto.description}
+								paymentMethod={produto.paymentMethod}
+								imagem={produto.photos}
+								nomeDoProduto={produto.name}
+								installments={produto.installments}
+							/>
+						))}
 					</CardsContainer>
 				</MainDiv>
 
