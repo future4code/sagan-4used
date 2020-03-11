@@ -85,6 +85,26 @@ class TelaConsumidor extends React.Component {
 							margin="normal"
 							variant="outlined"
 						/>
+					{/* 	<TextField
+						select
+						required
+						label="Categoria do Produto"
+						name='inputCategoria'
+						value={this.state.inputCategoria}
+						onChange={this.atualizaValorEntrada}
+						SelectProps={{
+							native: true, 
+						}}
+						margin="normal"
+						variant="outlined"
+					>
+						<option hidden value=''></option>
+						<option value={'roupas'}>Roupas</option>
+						<option value={'artigosDeDecoracao'}>Artigos de decoração</option>
+						<option value={'calcados'}>Calçados</option>
+						<option value={'eletronicos'}>Eletrônicos</option>
+						<option value={'moveis'}>Móveis</option>
+					</TextField> */}
 					</ValuesContainer>
 
 					<CardsContainer>

@@ -9,6 +9,11 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
+import OutlinedInput from '@material-ui/core/OutlinedInput';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+
 
 
 const Wrapper = styled.div`
@@ -64,10 +69,11 @@ class TelaFornecedor extends React.Component {
 		}
 	}
 
-	atualizaValorEntrada = nomeInput => event => {
+	atualizaValorEntrada = event => {
 		this.setState({
-			[nomeInput]: event.target.value
+			[event.target.name]: event.target.value
 		})
+		console.log(event.target)
 	}
 
 	atualizaCheckBox = nomeInput => event => {
@@ -132,103 +138,120 @@ class TelaFornecedor extends React.Component {
 		console.log(this.state.dadosOk)
 		return <Wrapper>
 			<h1>Fornecedor</h1>
-      <DivSuperior>
-      <DivTextField>
-			<TextField
-				required
-				error={this.state.inputNomeOK}
-				label="Nome do Produto"
-				value={this.state.inputNome}
-				onChange={this.atualizaValorEntrada('inputNome')}
-				margin="normal"
-				variant="outlined"
-			/>
-			<TextField
-				required
-				error={this.state.inputFotoUrlOK}
-				label="Foto do Produto"
-				value={this.state.inputFotoUrl}
-				onChange={this.atualizaValorEntrada('inputFotoUrl')}
-				margin="normal"
-				variant="outlined"
-			/>
-			<TextField
-				required
-				error={this.state.inputPrecoOK}
-				label="Preço"
-				value={this.state.inputPreco}
-				onChange={this.atualizaValorEntrada('inputPreco')}
-				margin="normal"
-				variant="outlined"
-			/>
-			<TextField
-				required
-				error={this.state.inputQtdParcelasOK}
-				label="Número de Parcelas"
-				value={this.state.inputQtdParcelas}
-				onChange={this.atualizaValorEntrada('inputQtdParcelas')}
-				margin="normal"
-				variant="outlined"
-			/>
-			<TextField
-				required
-				error={this.state.inputCategoriaOK}
-				label="Categoria do Produto"
-				value={this.state.inputCategoria}
-				onChange={this.atualizaValorEntrada('inputCategoria')}
-				margin="normal"
-				variant="outlined"
-			/>
-			<TextField
-				required
-				error={this.state.inputDescricaoOK}
-				multiline
-				rows="5"
-				label="Descrição do Produto"
-				value={this.state.inputDescricao}
-				onChange={this.atualizaValorEntrada('inputDescricao')}
-				margin="normal"
-				variant="outlined"
-			/>
-      </DivTextField>
-      <DivForm>
-			<FormControl required error={this.state.metodoPgOk} component="fieldset">
-				<FormLabel component="legend">Formas de Pagamento</FormLabel>
-				<FormGroup>
-					<FormControlLabel
-						control={
-							<Checkbox checked={this.state.metodoPg.boleto} onChange={this.atualizaCheckBox('boleto')} value="metodoPg.boleto" />
-						}
-						label="Boleto"
+			<DivSuperior>
+				<DivTextField>
+					<TextField
+						name="inputNome"
+						required
+						error={this.state.inputNomeOK}
+						label="Nome do Produto"
+						value={this.state.inputNome}
+						onChange={this.atualizaValorEntrada}
+						margin="normal"
+						variant="outlined"
 					/>
-					<FormControlLabel
-						control={
-							<Checkbox checked={this.state.metodoPg.transferencia} onChange={this.atualizaCheckBox('transferencia')} value="metodoPg.transferência" />
-						}
-						label="Transferência Eletrônica"
+					<TextField
+						name='inputFotoUrl'
+						required
+						error={this.state.inputFotoUrlOK}
+						label="Foto do Produto"
+						value={this.state.inputFotoUrl}
+						onChange={this.atualizaValorEntrada}
+						margin="normal"
+						variant="outlined"
 					/>
-					<FormControlLabel
-						control={
-							<Checkbox checked={this.state.metodoPg.payPal} onChange={this.atualizaCheckBox('payPal')} value="metodoPg.PayPal" />
-						}
-						label="PayPal"
+					<TextField
+						name='inputPreco'
+						required
+						error={this.state.inputPrecoOK}
+						label="Preço"
+						value={this.state.inputPreco}
+						onChange={this.atualizaValorEntrada}
+						margin="normal"
+						variant="outlined"
 					/>
-					<FormControlLabel control={
-						<Checkbox checked={this.state.metodoPg.dinheiro} onChange={this.atualizaCheckBox('dinheiro')} value="metodoPg.dinheiro" />
-					}
-						label="Dinheiro*">
+					<TextField
+						name='inputQtdParcelas'
+						required
+						error={this.state.inputQtdParcelasOK}
+						label="Número de Parcelas"
+						value={this.state.inputQtdParcelas}
+						onChange={this.atualizaValorEntrada}
+						margin="normal"
+						variant="outlined"
+					/>
+					<TextField
+						select
+						required
+						label="Categoria do Produto"
+						name='inputCategoria'
+						value={this.state.inputCategoria}
+						onChange={this.atualizaValorEntrada}
+						SelectProps={{
+							native: true,
+						}}
+						margin="normal"
+						variant="outlined"
+					>
+						<option hidden value=''></option>
+						<option value={'roupas'}>Roupas</option>
+						<option value={'artigosDeDecoracao'}>Artigos de decoração</option>
+						<option value={'calcados'}>Calçados</option>
+						<option value={'eletronicos'}>Eletrônicos</option>
+						<option value={'moveis'}>Móveis</option>
+					</TextField>
 
-					</FormControlLabel>
-					<FormControlLabel
-						control={
-							<Checkbox checked={this.state.metodoPg.cartaoCredito} onChange={this.atualizaCheckBox('cartaoCredito')} value="metodoPg.cartaoCredito" />
-						}
-						label="Cartão de Crédito"
+					<TextField
+						name='inputDescricao'
+						required
+						error={this.state.inputDescricaoOK}
+						multiline
+						rows="5"
+						label="Descrição do Produto"
+						value={this.state.inputDescricao}
+						onChange={this.atualizaValorEntrada}
+						margin="normal"
+						variant="outlined"
 					/>
-				</FormGroup><FormHelperText>*CUIDADO: Pagamentos em dinheiro exigem encontro pessoal </FormHelperText>
-			</FormControl>
-      </DivForm>
-      </DivSuperior>
+				</DivTextField>
+				<DivForm>
+					<FormControl required error={this.state.metodoPgOk} component="fieldset">
+						<FormLabel component="legend">Formas de Pagamento</FormLabel>
+						<FormGroup>
+							<FormControlLabel
+								control={
+									<Checkbox checked={this.state.metodoPg.boleto} onChange={this.atualizaCheckBox('boleto')} value="metodoPg.boleto" />
+								}
+								label="Boleto"
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox checked={this.state.metodoPg.transferencia} onChange={this.atualizaCheckBox('transferencia')} value="metodoPg.transferência" />
+								}
+								label="Transferência Eletrônica"
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox checked={this.state.metodoPg.payPal} onChange={this.atualizaCheckBox('payPal')} value="metodoPg.PayPal" />
+								}
+								label="PayPal"
+							/>
+							<FormControlLabel control={
+								<Checkbox checked={this.state.metodoPg.dinheiro} onChange={this.atualizaCheckBox('dinheiro')} value="metodoPg.dinheiro" />
+							}
+								label="Dinheiro*">
+
+							</FormControlLabel>
+							<FormControlLabel
+								control={
+									<Checkbox checked={this.state.metodoPg.cartaoCredito} onChange={this.atualizaCheckBox('cartaoCredito')} value="metodoPg.cartaoCredito" />
+								}
+								label="Cartão de Crédito"
+							/>
+						</FormGroup><FormHelperText>*CUIDADO: Pagamentos em dinheiro exigem encontro pessoal </FormHelperText>
+					</FormControl>
+				</DivForm>
+			</DivSuperior>
 			<Button variant='contained' color='primary' size='large' onClick={this.verificaDados}>
 				Cadastrar
 			</Button>
