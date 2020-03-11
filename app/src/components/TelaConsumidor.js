@@ -102,6 +102,8 @@ class TelaConsumidor extends React.Component {
 
 	render() {
 
+		let listaOrdenada
+
 		let listaNaoFiltrada = this.state.listaDeProdutosState.map((produto, index) => (
 			<ConteudoCartao
 				key={index}
