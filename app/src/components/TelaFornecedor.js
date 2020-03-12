@@ -68,7 +68,7 @@ class TelaFornecedor extends React.Component {
 
 	atualizaValorEntrada = event => {
 		if (event.target.name === 'inputQtdParcelas' || event.target.name === 'inputPreco') {
-			if(isNaN(Number(event.target.value)) || Number(event.target.value)<=0 ){
+			if (isNaN(Number(event.target.value)) || Number(event.target.value) <= 0) {
 				window.alert('Este campo aceita somente valores NUMERICOS e POSITIVOS')
 				this.setState({
 					[event.target.name]: ''
@@ -186,7 +186,6 @@ class TelaFornecedor extends React.Component {
 			console.log(error.response.data.message)
 		})
 	}
-
 
 	render() {
 		return <Wrapper>

@@ -37,7 +37,6 @@ const styles = {
 	}
 };
 
-
 class ConteudoCartao extends React.Component {
 	constructor(props) {
 		super(props)
@@ -88,26 +87,26 @@ class ConteudoCartao extends React.Component {
 						<Typography gutterBottom variant="h5" component="h2">
 							{this.props.nomeDoProduto}
 						</Typography>
-
 					</CardContent>
 				</CardActionArea>
+
 				<Typography component="p">
 					{Number(this.props.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
 				</Typography>
+
 				{this.state.mostraDetalhes &&
 					<span>
 						<Typography component="p"> <strong>Formas de pagamento: </strong>
 							{this.props.paymentMethod}
-					</Typography>
-						<Typography component="p"> <strong>Descrição: </strong>
-							{this.props.description}
 						</Typography>
 						<Typography component="p"> <strong>Parcelado em: </strong>
 							{this.props.installments}x
 					</Typography>
+						<Typography component="p"> <strong>Descrição: </strong>
+							{this.props.description}
+						</Typography>
 					</span>
 				}
-
 
 				<CardActions className={classes.btn} >
 					<Button onClick={() => this.props.adicionaProduto(this.props.cadaProduto)} size="small" color="primary">
