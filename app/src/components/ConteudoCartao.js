@@ -98,7 +98,7 @@ class ConteudoCartao extends React.Component {
 					{Number(this.props.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
 				</Typography>
 				<CardActions className={classes.btn} >
-					<Button size="small" color="primary">
+				<Button onClick={() => this.props.adicionaProduto(this.props.cadaProduto)} size="small" color="primary">
 						Adicionar ao Carrinho
                     </Button>
 				</CardActions>

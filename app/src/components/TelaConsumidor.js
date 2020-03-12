@@ -51,7 +51,8 @@ class TelaConsumidor extends React.Component {
 			idCardAtivo:'',
 			filtroMin: '',
 			filtroMax: '',
-			ordem: ''
+			ordem: '',
+			carrinho: []
 		}
 	}
 
@@ -112,6 +113,29 @@ class TelaConsumidor extends React.Component {
 		})
 	}
 
+	adicionaProduto = (produtoAdicionado) => {
+		const copiaCarrinho = [...this.state.carrinho]
+
+		// checo se o produto tá no carrinho
+		const produtoEstaNoCarrinho = this.state.carrinho.findIndex(cadaProduto =>
+			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
+
+		// se já tá no carrinho, só adiciono 1 na quantidade (paramentro novo que to criando)
+		if (produtoEstaNoCarrinho > -1) {
+			copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
+		} else { // se é a primeira vez
+			copiaCarrinho.push({
+				produtoAdicionado: produtoAdicionado,
+				quantidade: 1
+			})
+		}
+
+		this.setState({
+			carrinho: copiaCarrinho, // atualiza conteudo do carrinho no estado
+		})
+		this.props.mudaCarrinho(copiaCarrinho)
+}
+
 	render() {
 
 		let listaOrdenada
@@ -153,7 +177,8 @@ let lista
 
 		let listaNaoFiltrada = lista.map((produto, index) => (
 				<ConteudoCartao
-								key={index}
+				cadaProduto={produto}				
+				key={index}
 								id={produto.id}
 								category={produto.category}
 								price={produto.price}
@@ -164,6 +189,7 @@ let lista
 								installments={produto.installments}
 								cardAtivo={this.state.idCardAtivo}
 								funcaoCardAtivo={this.atulizaCardAtivo}
+								adicionaProduto={this.adicionaProduto}
 							/>
 		))
 
@@ -276,7 +302,8 @@ let lista
 			return listaNaoFiltrada
 		}).map((produto, index) => (
 				<ConteudoCartao
-								key={index}
+				cadaProduto={produto}				
+				key={index}
 								id={produto.id}
 								category={produto.category}
 								price={produto.price}
@@ -287,6 +314,7 @@ let lista
 								installments={produto.installments}
 								cardAtivo={this.state.idCardAtivo}
 								funcaoCardAtivo={this.atulizaCardAtivo}
+								adicionaProduto={this.adicionaProduto}
 							/>
 		))
 
