@@ -25,12 +25,10 @@ align-items: center;
 `
 
 const CardsContainer = styled.div`
-display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
+display: flex;
+flex-wrap:wrap;
 margin: auto;
 padding: 5px;
-grid-column-gap: 40px;
-grid-row-gap: 30px;
 `
 
 const CategoryFilterDiv = styled.div`
@@ -50,6 +48,7 @@ class TelaConsumidor extends React.Component {
 		this.state = {
 			listaDeProdutosState: [],
 			categoriaAtualState: '',
+			idCardAtivo:''
 		}
 	}
 
@@ -80,6 +79,12 @@ class TelaConsumidor extends React.Component {
 		}
 	}
 
+	atulizaCardAtivo = (id) =>{
+		this.setState({
+			idCardAtivo:id
+		})
+	}
+
 	escolherCategoria = (categoria) => {
 		this.setState({
 			categoriaAtualState: categoria,
@@ -87,6 +92,7 @@ class TelaConsumidor extends React.Component {
 	}
 
 	render() {
+		console.log(this.state.idCardAtivo)
 		return (
 			<Wrapper>
 				<CategoryFilterDiv>
@@ -154,9 +160,11 @@ class TelaConsumidor extends React.Component {
 								price={produto.price}
 								description={produto.description}
 								paymentMethod={produto.paymentMethod}
-								imagem={produto.photos}
+								imagem={produto.photos[0]}
 								nomeDoProduto={produto.name}
 								installments={produto.installments}
+								cardAtivo={this.state.idCardAtivo}
+								funcaoCardAtivo={this.atulizaCardAtivo}
 							/>
 						))}
 					</CardsContainer>

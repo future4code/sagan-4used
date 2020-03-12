@@ -10,54 +10,100 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
 	card: {
-        maxWidth: 345,
-        display: "flex",
-        "flex-direction": "column",
-        "justify-content": "space-between",
-        "text-align": "center",
+		width: '20%',
+		height: '35vh',
+		display: "flex",
+		transition: 'width 1s, height 1s, translate 2s',
+		marginRight: '5%',
+		marginBottom: '5%',
+		flexDirection: "column",
+		justifyContent: "space-between",
+		textAlign: "center",
+	},
+	cardDetalhes: {
+		width: '45%',
+		height: '70vh',
 	},
 	media: {
 		objectFit: 'cover',
+		height: '15vh',
+		transition: 'width 1s, height 1s'
 	},
+	mediaDetales: {
+		height: '40vh'
+	},
+	btn: {
+		justifyContent: "center"
+	}
 };
 
-class ConteudoCartao extends React.Component{
-    constructor(props) {
+
+class ConteudoCartao extends React.Component {
+	constructor(props) {
 		super(props)
 		this.state = {
+			mostraDetalhes: false
 		}
-    }
-    
-	render() {
-        const { classes } = this.props;
-		return(
-            <Card className={classes.card}>
-                <CardActionArea>
-                    <CardMedia
-                        component="img"
-                        alt="Imagem"
-                        className={classes.media}
-                        height="140"
-                        image={this.props.imagem}
-                        title={this.props.titulo}
-                    />
-                    <CardContent>
-                        <Typography gutterBottom variant="h5" component="h2">
-                            {this.props.nomeDoProduto}
-                        </Typography>
-                        <Typography component="p">
-                            {this.props.valorDoProduto}
-                        </Typography>
-                    </CardContent>
-                </CardActionArea>
+	}
 
-                <CardActions>
-                    <Button size="small" color="primary">
-                        Adicionar ao Carrinho
+	componentDidUpdate() {
+		//debugger
+		console.log(this.props.cardAtivo)
+		this.trocaMostraDetalhes()
+	}
+
+	trocaMostraDetalhes = () => {
+		if (this.props.id !== this.props.cardAtivo && this.state.mostraDetalhes===true) {
+			this.setState({ mostraDetalhes: false })
+		}
+	}
+
+	trocaStatusAtivo = (id) => {
+		if (this.state.mostraDetalhes === false) {
+			this.setState({ mostraDetalhes: true })
+			this.props.funcaoCardAtivo(id)
+		} else {
+			this.setState({ mostraDetalhes: false })
+			this.props.funcaoCardAtivo('')
+		}
+	}
+
+	render() {
+		const { classes } = this.props
+		console.log(this.state.mostraDetalhes)
+		return (
+			<Card
+				style={{
+					...styles.card,
+					...(this.state.mostraDetalhes ? styles.cardDetalhes : {}),
+				}}>
+				<CardActionArea onClick={() => this.trocaStatusAtivo(this.props.id)}>
+					<CardMedia
+						component="img"
+						alt="Imagem"
+						image={this.props.imagem}
+						style={{
+							...styles.media,
+							...(this.state.mostraDetalhes ? styles.mediaDetales : {}),
+						}}
+					/>
+					<CardContent>
+						<Typography gutterBottom variant="h5" component="h2">
+							{this.props.nomeDoProduto}
+						</Typography>
+
+					</CardContent>
+				</CardActionArea>
+				<Typography component="p">
+					{Number(this.props.price).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
+				</Typography>
+				<CardActions className={classes.btn} >
+					<Button size="small" color="primary">
+						Adicionar ao Carrinho
                     </Button>
-                </CardActions>
-            </Card>
-        )
+				</CardActions>
+			</Card>
+		)
 	}
 }
 

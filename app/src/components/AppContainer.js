@@ -60,6 +60,9 @@ const styles = theme => ({
 			},
 		},
 	},
+	btnTelaConsumidor: {
+		marginRight: '2vw'
+	}
 });
 
 class AppContainer extends React.Component {
@@ -104,8 +107,8 @@ class AppContainer extends React.Component {
 				</div>
 				<div className={classes.grow} />
 				<div>
-					<Button color='secondary' onClick={() => this.mudaBotao('carrinho')}>Carrinho</Button>
-					<Button color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
+					<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('carrinho')} className={classes.btnTelaConsumidor}>Carrinho</Button>
+					<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
 				</div>
 			</>
 		)
@@ -113,14 +116,14 @@ class AppContainer extends React.Component {
 		const botoesFornecedor = (
 			<>
 				<div className={classes.grow} />
-				<Button color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
+				<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
 			</>
 		)
 
 		const botoesCarrinho = (
 			<>
 				<div className={classes.grow} />
-				<Button color='secondary' onClick={() => this.mudaBotao('consumidor')}>VOLTAR</Button>
+				<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('consumidor')}>VOLTAR</Button>
 			</>
 		)
 
