@@ -45,7 +45,7 @@ class TelaFornecedor extends React.Component {
 			inputQtdParcelas: '',
 			inputCategoria: '',
 			inputDescricao: '',
-			metodoPgArray:[],
+			metodoPgArray: [],
 
 			inputNomeOK: false,
 			inputFotoUrlOK: false,
@@ -67,12 +67,25 @@ class TelaFornecedor extends React.Component {
 	}
 
 	atualizaValorEntrada = event => {
+		if (event.target.name === 'inputQtdParcelas' || event.target.name === 'inputPreco') {
+			if(isNaN(Number(event.target.value)) || Number(event.target.value)<=0 ){
+				window.alert('Este campo aceita somente valores NUMERICOS e POSITIVOS')
+				this.setState({
+					[event.target.name]: ''
+				})
+			} else {
+				this.setState({
+					[event.target.name]: Number(event.target.value)
+				})
+			}
+		} else {
 			this.setState({
-			[event.target.name]: event.target.value
-		})
+				[event.target.name]: event.target.value
+			})
+		}
 	}
 
-	atualizaCheckBox = nomeInput => event => {
+	/* atualizaCheckBox = nomeInput => event => {
 		let metodoPgcp = this.state.metodoPg
 		Object.keys(metodoPgcp).forEach(elemento => {
 			if (elemento === nomeInput) {
@@ -83,6 +96,35 @@ class TelaFornecedor extends React.Component {
 		})
 		this.setState({
 			metodoPg: metodoPgcp
+		})
+	} */
+
+	atualizaCheckBox = nomeInput => event => {
+		let metodoPgcp = this.state.metodoPg
+		Object.keys(metodoPgcp).forEach(elemento => {
+			if (elemento === event.target.name) {
+				metodoPgcp[elemento] = event.target.checked
+			} else {
+				metodoPgcp[elemento] = metodoPgcp[elemento]
+			}
+		})
+		this.setState({
+			metodoPg: metodoPgcp
+		})
+		this.geraArrayPagamentos(nomeInput, event.target.checked)
+	}
+
+	geraArrayPagamentos = (stringPagamento, estadoChecked) => {
+		let arrayPagamentos = this.state.metodoPgArray
+		//Object.keys(this.state.metodoPg).forEach(elemento => {
+		if (estadoChecked === true) {
+			arrayPagamentos.push(stringPagamento)
+		}
+		else {
+			arrayPagamentos.splice(arrayPagamentos.indexOf(stringPagamento), 1)
+		}
+		this.setState({
+			metodoPgArray: arrayPagamentos
 		})
 	}
 
@@ -116,49 +158,38 @@ class TelaFornecedor extends React.Component {
 		})
 
 		console.log(dadosOk)
-		if (dadosOk){
-			this.geraArrayPagamentos()
+		if (dadosOk) {
+			this.criaRegistroProduto()
 		} else {
 			window.alert('Preencha todos os dados')
 		}
 	}
 
-	geraArrayPagamentos = () => {
-		let arrayPagamentos = []
-		Object.keys(this.state.metodoPg).forEach(elemento => {
-			if (this.state.metodoPg[elemento] === true) {
-				arrayPagamentos.push(`${elemento}`)
-			}
-		})
-		this.criaRegistroProduto(arrayPagamentos)
-		console.log(arrayPagamentos)
-	}
-
-	criaRegistroProduto = (arrayPagamento) =>{
+	criaRegistroProduto = () => {
 		let dataToSend = {
-			name:this.state.inputNome,
+			name: this.state.inputNome,
 			description: this.state.inputDescricao,
 			price: Number(this.state.inputPreco),
-			paymentMethod: arrayPagamento,
+			paymentMethod: this.state.metodoPgArray,
 			category: this.state.inputCategoria,
-			photos:[this.state.inputFotoUrl],
-			installments:Number(this.state.inputQtdParcelas)
+			photos: [this.state.inputFotoUrl],
+			installments: Number(this.state.inputQtdParcelas)
 		}
 
-		const request = axios.post('https://us-central1-future-apis.cloudfunctions.net/fourUsed/products',dataToSend)
+		const request = axios.post('https://us-central1-future-apis.cloudfunctions.net/fourUsed/products', dataToSend)
 		request.then(response => {
 			console.log(response.status)
-      console.log(response.statusText)
-      window.alert('Produto cadastrado com sucesso!')
-		}).catch(error=> {
+			console.log(response.statusText)
+			window.alert('Produto cadastrado com sucesso!')
+		}).catch(error => {
 			console.log(error.response.status)
-      console.log(error.response.data.message)
+			console.log(error.response.data.message)
 		})
 	}
 
 
 	render() {
-		console.log(this.state.dadosOk)
+		console.log(this.state.metodoPgArray)
 		return <Wrapper>
 			<h1>Fornecedor</h1>
 			<DivSuperior>
@@ -243,31 +274,30 @@ class TelaFornecedor extends React.Component {
 						<FormGroup>
 							<FormControlLabel
 								control={
-									<Checkbox checked={this.state.metodoPg.boleto} onChange={this.atualizaCheckBox('boleto')} value="metodoPg.boleto" />
+									<Checkbox checked={this.state.metodoPg.boleto} name='boleto' onChange={this.atualizaCheckBox('Boleto. ')} value="metodoPg.boleto" />
 								}
 								label="Boleto"
 							/>
 							<FormControlLabel
 								control={
-									<Checkbox checked={this.state.metodoPg.transferencia} onChange={this.atualizaCheckBox('transferencia')} value="metodoPg.transferência" />
+									<Checkbox checked={this.state.metodoPg.transferencia} name='transferencia' onChange={this.atualizaCheckBox('Transferência. ')} value="metodoPg.transferência" />
 								}
 								label="Transferência Eletrônica"
 							/>
 							<FormControlLabel
 								control={
-									<Checkbox checked={this.state.metodoPg.payPal} onChange={this.atualizaCheckBox('payPal')} value="metodoPg.PayPal" />
+									<Checkbox checked={this.state.metodoPg.payPal} name='payPal' onChange={this.atualizaCheckBox('PayPal. ')} value="metodoPg.PayPal" />
 								}
 								label="PayPal"
 							/>
 							<FormControlLabel control={
-								<Checkbox checked={this.state.metodoPg.dinheiro} onChange={this.atualizaCheckBox('dinheiro')} value="metodoPg.dinheiro" />
+								<Checkbox checked={this.state.metodoPg.dinheiro} name='dinheiro' onChange={this.atualizaCheckBox('Dinheiro. ')} value="metodoPg.dinheiro" />
 							}
-								label="Dinheiro*">
-
-							</FormControlLabel>
+								label="Dinheiro*"
+							/>
 							<FormControlLabel
 								control={
-									<Checkbox checked={this.state.metodoPg.cartaoCredito} onChange={this.atualizaCheckBox('cartaoCredito')} value="metodoPg.cartaoCredito" />
+									<Checkbox checked={this.state.metodoPg.cartaoCredito} name='cartaoCredito' onChange={this.atualizaCheckBox('Cartão de Crédito. ')} value="metodoPg.cartaoCredito" />
 								}
 								label="Cartão de Crédito"
 							/>
