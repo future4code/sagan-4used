@@ -135,7 +135,7 @@ class AppContainer extends React.Component {
 				break;
 			case 'consumidor':
 				botoes = botoesConsumidor
-				telaAtual = <TelaConsumidor />
+				telaAtual = <TelaConsumidor inputPesquisa={this.state.pesquisa}/>
 				break;
 			case 'fornecedor':
 				botoes = botoesFornecedor

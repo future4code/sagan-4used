@@ -48,7 +48,10 @@ class TelaConsumidor extends React.Component {
 		this.state = {
 			listaDeProdutosState: [],
 			categoriaAtualState: '',
-			idCardAtivo:''
+			idCardAtivo:'',
+			filtroMin: '',
+			filtroMax: ''
+
 		}
 	}
 
@@ -91,8 +94,168 @@ class TelaConsumidor extends React.Component {
 		})
 	}
 
+	mudouFiltroMinimo = (event) => {
+		this.setState({
+			filtroMin: event.target.value
+		})
+	}
+
+	mudouFiltroMaximo = (event) => {
+		this.setState({
+			filtroMax: event.target.value
+		})
+	}
+
 	render() {
-		console.log(this.state.idCardAtivo)
+
+		let listaOrdenada
+
+		let listaNaoFiltrada = this.state.listaDeProdutosState.map((produto, index) => (
+				<ConteudoCartao
+								key={index}
+								id={produto.id}
+								category={produto.category}
+								price={produto.price}
+								description={produto.description}
+								paymentMethod={produto.paymentMethod}
+								imagem={produto.photos[0]}
+								nomeDoProduto={produto.name}
+								installments={produto.installments}
+								cardAtivo={this.state.idCardAtivo}
+								funcaoCardAtivo={this.atulizaCardAtivo}
+							/>
+		))
+
+		let listaFiltrada = this.state.listaDeProdutosState.filter(cadaProduto => {
+			let filtroBusca  = this.props.inputPesquisa
+			let filtroMin = this.state.filtroMin
+			let filtroMax = this.state.filtroMax
+			let categoria = this.state.categoriaAtualState
+
+			let valorDoProduto = cadaProduto.price
+
+			// 	TODOS OS FILTROS
+			if (filtroBusca && filtroMin && filtroMax && categoria) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto >= filtroMin &&
+					valorDoProduto <= filtroMax &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+			// TRÊS
+			if (filtroBusca && filtroMin && filtroMax) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto >= filtroMin &&
+					valorDoProduto <= filtroMax
+				)
+			}
+
+			if (filtroBusca && filtroMin && categoria) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto >= filtroMin &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+			if (filtroBusca && filtroMax && categoria) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto <= filtroMax &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+			if (filtroMin && filtroMax && categoria) {
+				return (
+					valorDoProduto >= filtroMin &&
+					valorDoProduto <= filtroMax &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+			// DOIS
+
+			if (filtroBusca && filtroMin) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto >= filtroMin
+				)
+			}
+			if (filtroBusca && filtroMax) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					valorDoProduto <= filtroMax
+				)
+			}
+			if (filtroBusca && categoria) {
+				return (
+					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+			if (filtroMin && filtroMax) {
+				return (
+					valorDoProduto >= filtroMin &&
+					valorDoProduto <= filtroMax)
+			}
+			if (filtroMin && categoria) {
+				return (
+					valorDoProduto >= filtroMin &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+			if (filtroMax && categoria) {
+				return (
+					valorDoProduto <= filtroMax &&
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+			// SÓ UM
+			if (filtroBusca) {
+				return cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase())
+			}
+			if (filtroMin) {
+				return valorDoProduto >= filtroMin
+			}
+			if (filtroMax) {
+				return valorDoProduto <= filtroMax
+			}
+			if (categoria) {
+				return (
+					cadaProduto.category.includes(categoria)
+				)
+			}
+
+
+			return listaNaoFiltrada
+		}).map((produto, index) => (
+				<ConteudoCartao
+								key={index}
+								id={produto.id}
+								category={produto.category}
+								price={produto.price}
+								description={produto.description}
+								paymentMethod={produto.paymentMethod}
+								imagem={produto.photos[0]}
+								nomeDoProduto={produto.name}
+								installments={produto.installments}
+								cardAtivo={this.state.idCardAtivo}
+								funcaoCardAtivo={this.atulizaCardAtivo}
+							/>
+		))
+
+		let listaDeItens
+		if (this.state.categoriaAtualState || this.state.filtroMin || this.state.filtroMax || this.props.inputPesquisa) {
+			listaDeItens = listaFiltrada
+		} else {
+			listaDeItens = listaNaoFiltrada
+		}
+
 		return (
 			<Wrapper>
 				<CategoryFilterDiv>
@@ -108,16 +271,16 @@ class TelaConsumidor extends React.Component {
 						<TextField
 							// error={this.state.inputDescricaoOK}
 							label="Valor Mínimo:"
-							// value={this.state.inputDescricao}
-							// onChange={}
+							value={this.state.filtroMin}
+							onChange={this.mudouFiltroMinimo}
 							margin="normal"
 							variant="outlined"
 						/>
 						<TextField
 							// error={this.state.inputDescricaoOK}
 							label="Valor Máximo:"
-							// value={this.state.inputDescricao}
-							// onChange={}
+							value={this.state.filtroMax}
+							onChange={this.mudouFiltroMaximo}
 							margin="normal"
 							variant="outlined"
 						/>
@@ -152,21 +315,7 @@ class TelaConsumidor extends React.Component {
 					</ValuesContainer>
 
 					<CardsContainer>
-						{this.state.listaDeProdutosState.map((produto, index) => (
-							<ConteudoCartao
-								key={index}
-								id={produto.id}
-								category={produto.category}
-								price={produto.price}
-								description={produto.description}
-								paymentMethod={produto.paymentMethod}
-								imagem={produto.photos[0]}
-								nomeDoProduto={produto.name}
-								installments={produto.installments}
-								cardAtivo={this.state.idCardAtivo}
-								funcaoCardAtivo={this.atulizaCardAtivo}
-							/>
-						))}
+						{listaDeItens}
 					</CardsContainer>
 				</MainDiv>
 
