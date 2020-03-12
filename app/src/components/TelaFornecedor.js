@@ -67,7 +67,7 @@ class TelaFornecedor extends React.Component {
 	}
 
 	atualizaValorEntrada = event => {
-		this.setState({
+			this.setState({
 			[event.target.name]: event.target.value
 		})
 	}

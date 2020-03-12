@@ -25,12 +25,10 @@ align-items: center;
 `
 
 const CardsContainer = styled.div`
-display: grid;
-grid-template-columns: 1fr 1fr 1fr 1fr;
+display: flex;
+flex-wrap:wrap;
 margin: auto;
 padding: 5px;
-grid-column-gap: 40px;
-grid-row-gap: 30px;
 `
 
 const CategoryFilterDiv = styled.div`
@@ -50,8 +48,10 @@ class TelaConsumidor extends React.Component {
 		this.state = {
 			listaDeProdutosState: [],
 			categoriaAtualState: '',
+			idCardAtivo:'',
 			filtroMin: '',
 			filtroMax: ''
+
 		}
 	}
 
@@ -82,6 +82,12 @@ class TelaConsumidor extends React.Component {
 		}
 	}
 
+	atulizaCardAtivo = (id) =>{
+		this.setState({
+			idCardAtivo:id
+		})
+	}
+
 	escolherCategoria = (categoria) => {
 		this.setState({
 			categoriaAtualState: categoria,
@@ -105,17 +111,19 @@ class TelaConsumidor extends React.Component {
 		let listaOrdenada
 
 		let listaNaoFiltrada = this.state.listaDeProdutosState.map((produto, index) => (
-			<ConteudoCartao
-				key={index}
-				id={produto.id}
-				category={produto.category}
-				price={produto.price}
-				description={produto.description}
-				paymentMethod={produto.paymentMethod}
-				imagem={produto.photos}
-				nomeDoProduto={produto.name}
-				installments={produto.installments}
-			/>
+				<ConteudoCartao
+								key={index}
+								id={produto.id}
+								category={produto.category}
+								price={produto.price}
+								description={produto.description}
+								paymentMethod={produto.paymentMethod}
+								imagem={produto.photos[0]}
+								nomeDoProduto={produto.name}
+								installments={produto.installments}
+								cardAtivo={this.state.idCardAtivo}
+								funcaoCardAtivo={this.atulizaCardAtivo}
+							/>
 		))
 
 		let listaFiltrada = this.state.listaDeProdutosState.filter(cadaProduto => {
@@ -226,17 +234,19 @@ class TelaConsumidor extends React.Component {
 
 			return listaNaoFiltrada
 		}).map((produto, index) => (
-			<ConteudoCartao
-				key={index}
-				id={produto.id}
-				category={produto.category}
-				price={produto.price}
-				description={produto.description}
-				paymentMethod={produto.paymentMethod}
-				imagem={produto.photos}
-				nomeDoProduto={produto.name}
-				installments={produto.installments}
-			/>
+				<ConteudoCartao
+								key={index}
+								id={produto.id}
+								category={produto.category}
+								price={produto.price}
+								description={produto.description}
+								paymentMethod={produto.paymentMethod}
+								imagem={produto.photos[0]}
+								nomeDoProduto={produto.name}
+								installments={produto.installments}
+								cardAtivo={this.state.idCardAtivo}
+								funcaoCardAtivo={this.atulizaCardAtivo}
+							/>
 		))
 
 		let listaDeItens
