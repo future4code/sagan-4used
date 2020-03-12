@@ -67,37 +67,68 @@ class TelaFornecedor extends React.Component {
 	}
 
 	atualizaValorEntrada = event => {
-		if (event.target.name === 'inputQtdParcelas' || event.target.name === 'inputPreco') {
-			if (isNaN(Number(event.target.value)) || Number(event.target.value) <= 0) {
-				window.alert('Este campo aceita somente valores NUMERICOS e POSITIVOS')
+		if (event.target.name === 'inputPreco') {
+			if (isNaN(parseFloat(event.target.value)) || parseFloat(event.target.value) <= 0 || event.target.value ==='') {
+				console.log('passei if')
+				event.target.value ===''||window.alert('Este campo aceita somente valores NUMERICOS e POSITIVOS')
+				this.setState({
+					[event.target.name]: ''
+				})
+			}
+			else {
+				if (event.target.value.indexOf('.') !== -1) {
+					if (event.target.value.indexOf('.') === (event.target.value.length - 1)) {
+						this.setState({
+							[event.target.name]: `${parseFloat(event.target.value)}.`
+						})
+					}
+					else if ((event.target.value.indexOf('.') === (event.target.value.length - 2)) && (event.target.value.indexOf('0')=== (event.target.value.length - 1))) {
+						this.setState({
+							[event.target.name]: `${parseFloat(event.target.value)}.0`
+						})
+					}
+					else if (event.target.value.indexOf('0') === (event.target.value.length - 1) && (event.target.value.length - event.target.value.indexOf('.')) <= 3) {
+						this.setState({
+							[event.target.name]: event.target.value
+						})
+					}
+					else if (event.target.value.indexOf('00') === (event.target.value.length - 2) && (event.target.value.length - event.target.value.indexOf('.')) <= 3) {
+						this.setState({
+							[event.target.name]: `${event.target.value}`
+						})
+					}
+					else if ((event.target.value.length - event.target.value.indexOf('.')) <= 3) {
+						this.setState({
+							[event.target.name]: parseFloat(event.target.value)
+						})
+					}
+				}
+				else {
+					console.log('passei else')
+					this.setState({
+						[event.target.name]: parseFloat(event.target.value)
+					})
+				}
+			}
+		}
+		else if (event.target.name === 'inputQtdParcelas') {
+			if (parseInt(event.target.value) <= 0 || parseInt(event.target.value) > 24 || isNaN(parseInt(event.target.value))) {
+				window.alert('Por favor insira valores entre 1 e 24')
 				this.setState({
 					[event.target.name]: ''
 				})
 			} else {
 				this.setState({
-					[event.target.name]: Number(event.target.value)
+					[event.target.name]: parseInt(event.target.value, 10)
 				})
 			}
-		} else {
+		}
+		else {
 			this.setState({
 				[event.target.name]: event.target.value
 			})
 		}
 	}
-
-	/* atualizaCheckBox = nomeInput => event => {
-		let metodoPgcp = this.state.metodoPg
-		Object.keys(metodoPgcp).forEach(elemento => {
-			if (elemento === nomeInput) {
-				metodoPgcp[elemento] = event.target.checked
-			} else {
-				metodoPgcp[elemento] = metodoPgcp[elemento]
-			}
-		})
-		this.setState({
-			metodoPg: metodoPgcp
-		})
-	} */
 
 	atualizaCheckBox = nomeInput => event => {
 		let metodoPgcp = this.state.metodoPg
@@ -116,7 +147,6 @@ class TelaFornecedor extends React.Component {
 
 	geraArrayPagamentos = (stringPagamento, estadoChecked) => {
 		let arrayPagamentos = this.state.metodoPgArray
-		//Object.keys(this.state.metodoPg).forEach(elemento => {
 		if (estadoChecked === true) {
 			arrayPagamentos.push(stringPagamento)
 		}
@@ -140,7 +170,6 @@ class TelaFornecedor extends React.Component {
 				} else {
 					this.setState({
 						[`${elemento}OK`]: false
-
 					})
 				}
 			}
@@ -156,8 +185,7 @@ class TelaFornecedor extends React.Component {
 			metodoPgOk: erroCheckBox,
 			dadosOk: dadosOk
 		})
-
-		console.log(dadosOk)
+		
 		if (dadosOk) {
 			this.criaRegistroProduto()
 		} else {
@@ -235,6 +263,7 @@ class TelaFornecedor extends React.Component {
 					<TextField
 						select
 						required
+						error={this.state.inputCategoriaOK}
 						label="Categoria do Produto"
 						name='inputCategoria'
 						value={this.state.inputCategoria}
