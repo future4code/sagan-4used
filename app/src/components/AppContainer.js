@@ -71,6 +71,7 @@ class AppContainer extends React.Component {
 		this.state = {
 			botaoAtual: 'consumidor',
 			pesquisa: '',
+			novoCarrinho: []
 		}
 	}
 
@@ -82,6 +83,10 @@ class AppContainer extends React.Component {
 		const digitado = event.target.value
 		this.setState({ pesquisa: digitado })
 		// passar o resultado dessa pesquisa como props
+	}
+
+	carrinho = (par) => {
+		this.setState({ novoCarrinho: par})
 	}
 
 	render() {
@@ -133,18 +138,23 @@ class AppContainer extends React.Component {
 			case 'home':
 				telaAtual = <TelaHome funcao={this.mudaBotao} />
 				break;
-			case 'consumidor':
-				botoes = botoesConsumidor
-				telaAtual = <TelaConsumidor inputPesquisa={this.state.pesquisa}/>
-				break;
-			case 'fornecedor':
-				botoes = botoesFornecedor
-				telaAtual = <TelaFornecedor />
-				break
-			case 'carrinho':
-				botoes = botoesCarrinho
-				telaAtual = <Carrinho />
-				break
+				case 'consumidor':
+					botoes = botoesConsumidor
+					telaAtual = <TelaConsumidor 
+						inputPesquisa={this.state.pesquisa}
+						mudaCarrinho={this.carrinho}
+					/>
+					break;
+				case 'fornecedor':
+					botoes = botoesFornecedor
+					telaAtual = <TelaFornecedor />
+					break
+				case 'carrinho':
+					botoes = botoesCarrinho
+					telaAtual = <Carrinho 
+						conteudoCarrinho={this.state.novoCarrinho}
+					/>
+					break
 			default:
 				telaAtual = <TelaHome funcao={this.mudaBotao} />
 				break;

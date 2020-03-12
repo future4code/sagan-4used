@@ -11,6 +11,8 @@ const Wrapper = styled.div`
 class Carrinho extends React.Component{
 	
 	render() {
+		console.log(this.props.conteudoCarrinho)
+
 		return <Wrapper>
 			<h1>Carrinho</h1>
 		</Wrapper>

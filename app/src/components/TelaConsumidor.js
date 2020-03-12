@@ -50,8 +50,9 @@ class TelaConsumidor extends React.Component {
 			categoriaAtualState: '',
 			idCardAtivo:'',
 			filtroMin: '',
-			filtroMax: ''
-
+			filtroMax: '',
+			ordem: '',
+			carrinho: []
 		}
 	}
 
@@ -106,13 +107,78 @@ class TelaConsumidor extends React.Component {
 		})
 	}
 
+	mudaOrdenacao = (event) => {
+		this.setState({
+			ordem: event.target.value
+		})
+	}
+
+	adicionaProduto = (produtoAdicionado) => {
+		const copiaCarrinho = [...this.state.carrinho]
+
+		// checo se o produto tá no carrinho
+		const produtoEstaNoCarrinho = this.state.carrinho.findIndex(cadaProduto =>
+			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
+
+		// se já tá no carrinho, só adiciono 1 na quantidade (paramentro novo que to criando)
+		if (produtoEstaNoCarrinho > -1) {
+			copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
+		} else { // se é a primeira vez
+			copiaCarrinho.push({
+				produtoAdicionado: produtoAdicionado,
+				quantidade: 1
+			})
+		}
+
+		this.setState({
+			carrinho: copiaCarrinho, // atualiza conteudo do carrinho no estado
+		})
+		this.props.mudaCarrinho(copiaCarrinho)
+}
+
 	render() {
 
 		let listaOrdenada
+		if (this.state.ordem === 'crescente') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.price < b.price ? -1 : a.price > b.price ? 1 : 0
+			})
+		} else if (this.state.ordem === 'decrescente') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.price < b.price ? 1 : a.price > b.price ? -1 : 0
+			})
+		} else if (this.state.ordem === 'nomeZA') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.name.toLowerCase() < b.name.toLowerCase() ? 1 : a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 0
+			})
+		} else if (this.state.ordem === 'nomeAZ') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0
+			})
+		}
+		else if (this.state.ordem === 'categoriaZA') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.category < b.category ? 1 : a.category > b.category ? -1 : 0
+			})
+		} else if (this.state.ordem === 'categoriaAZ') {
+			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
+				return a.category < b.category ? -1 : a.category > b.category ? 1 : 0
+			})
+		}
 
-		let listaNaoFiltrada = this.state.listaDeProdutosState.map((produto, index) => (
+
+let lista
+		if (listaOrdenada) {
+			lista = listaOrdenada
+		} else {
+			lista = this.state.listaDeProdutosState
+		}
+
+
+		let listaNaoFiltrada = lista.map((produto, index) => (
 				<ConteudoCartao
-								key={index}
+				cadaProduto={produto}				
+				key={index}
 								id={produto.id}
 								category={produto.category}
 								price={produto.price}
@@ -123,16 +189,17 @@ class TelaConsumidor extends React.Component {
 								installments={produto.installments}
 								cardAtivo={this.state.idCardAtivo}
 								funcaoCardAtivo={this.atulizaCardAtivo}
+								adicionaProduto={this.adicionaProduto}
 							/>
 		))
 
-		let listaFiltrada = this.state.listaDeProdutosState.filter(cadaProduto => {
+		let listaFiltrada = lista.filter(cadaProduto => {
 			let filtroBusca  = this.props.inputPesquisa
 			let filtroMin = this.state.filtroMin
 			let filtroMax = this.state.filtroMax
 			let categoria = this.state.categoriaAtualState
 
-			let valorDoProduto = cadaProduto.price
+			let valorDoProduto = Number(cadaProduto.price)
 
 			// 	TODOS OS FILTROS
 			if (filtroBusca && filtroMin && filtroMax && categoria) {
@@ -235,7 +302,8 @@ class TelaConsumidor extends React.Component {
 			return listaNaoFiltrada
 		}).map((produto, index) => (
 				<ConteudoCartao
-								key={index}
+				cadaProduto={produto}				
+				key={index}
 								id={produto.id}
 								category={produto.category}
 								price={produto.price}
@@ -246,6 +314,7 @@ class TelaConsumidor extends React.Component {
 								installments={produto.installments}
 								cardAtivo={this.state.idCardAtivo}
 								funcaoCardAtivo={this.atulizaCardAtivo}
+								adicionaProduto={this.adicionaProduto}
 							/>
 		))
 
@@ -285,33 +354,28 @@ class TelaConsumidor extends React.Component {
 							variant="outlined"
 						/>
 						<TextField
-							// error={this.state.inputDescricaoOK}
-							label="Ordernar Por:"
-							// value={this.state.inputDescricao}
-							// onChange={}
+							select
+							label="Ordenar por"
+							name='ordem'
+							value={this.state.ordem}
+							onChange={this.mudaOrdenacao}
+							SelectProps={{
+								native: true,
+							}}
 							margin="normal"
 							variant="outlined"
-						/>
-					{/* 	<TextField
-						select
-						required
-						label="Categoria do Produto"
-						name='inputCategoria'
-						value={this.state.inputCategoria}
-						onChange={this.atualizaValorEntrada}
-						SelectProps={{
-							native: true, 
-						}}
-						margin="normal"
-						variant="outlined"
-					>
-						<option hidden value=''></option>
-						<option value={'roupas'}>Roupas</option>
-						<option value={'artigosDeDecoracao'}>Artigos de decoração</option>
-						<option value={'calcados'}>Calçados</option>
-						<option value={'eletronicos'}>Eletrônicos</option>
-						<option value={'moveis'}>Móveis</option>
-					</TextField> */}
+						>
+							<option hidden value=''></option>
+							<option value={'crescente'}>Menor Preço</option>
+							<option value={'decrescente'}>Maior Preço</option>
+							<option value={'nomeAZ'}>Nome (A -Z)</option>
+							<option value={'nomeZA'}>Nome (Z - A)</option>
+							<option value={'categoriaAZ'}>Categoria (A -Z)</option>
+							<option value={'categoriaZA'}>Categoria (Z - A)</option>
+							
+							{/* <option value={'moveis'}>Móveis</option> */}
+</TextField>
+					
 					</ValuesContainer>
 
 					<CardsContainer>
