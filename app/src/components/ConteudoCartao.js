@@ -47,8 +47,6 @@ class ConteudoCartao extends React.Component {
 	}
 
 	componentDidUpdate() {
-		//debugger
-		console.log(this.props.cardAtivo)
 		this.trocaMostraDetalhes()
 	}
 
@@ -70,7 +68,6 @@ class ConteudoCartao extends React.Component {
 
 	render() {
 		const { classes } = this.props
-		console.log(this.state.mostraDetalhes)
 		return (
 			<Card
 				style={{

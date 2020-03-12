@@ -189,7 +189,6 @@ class TelaFornecedor extends React.Component {
 
 
 	render() {
-		console.log(this.state.metodoPgArray)
 		return <Wrapper>
 			<h1>Fornecedor</h1>
 			<DivSuperior>
