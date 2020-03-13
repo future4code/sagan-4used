@@ -9,7 +9,10 @@ Desenvolvimento de aplicações completas, incluindo frontend Web com React e ba
 
 [Site do projeto](http://sagan-4used.surge.sh/)
 
-![4used](https://i.ibb.co/Rv3cFHc/4used.gif)
+
+<p align="center">
+  <img  width='500' src='https://i.ibb.co/Rv3cFHc/4used.gif)>
+</p>
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/future4code/sagan-4used">
