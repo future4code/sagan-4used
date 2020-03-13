@@ -62,26 +62,37 @@ class Carrinho extends React.Component {
     return this.props.conteudoCarrinho.find(carrinho => carrinho.produtoAdicionado.id === produtoId)
   }
 
-  removerProduto = (produtoId) => {
-    // this.props.alteraCarrinho(produtoId, 0)
+  removerProduto = (produtoAdicionado) => {
+    const copiaCarrinho = [...this.props.conteudoCarrinho]
+		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
+			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
+    copiaCarrinho.splice(produtoEstaNoCarrinho, 1)
+    this.props.excluiDoCarrinho(copiaCarrinho)
   }
 
-  aumentaQuantidade = (produtoId) => {
-    const itemCarrinho = this.acharProduto(produtoId)
-    // this.props.alteraCarrinho(produtoId, itemCarrinho.quantidade + 1)
+  aumentaQuantidade = (produtoAdicionado) => {
+    const copiaCarrinho = [...this.props.conteudoCarrinho]
+		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
+			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
+		copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
+		this.props.maisNoCarrinho(copiaCarrinho)
   }
 
-  diminuiQuantidade = (produtoId) => {
-    const itemCarrinho = this.acharProduto(produtoId)
-    //this.props.alteraCarrinho(produtoId, itemCarrinho.quantidade -1)
+  diminuiQuantidade = (produtoAdicionado) => {
+    const copiaCarrinho = [...this.props.conteudoCarrinho]
+		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
+			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
+		if (copiaCarrinho[produtoEstaNoCarrinho].quantidade > 1) { // para em zero
+			copiaCarrinho[produtoEstaNoCarrinho].quantidade -= 1
+		}
+		this.props.menosNoCarrinho(copiaCarrinho)
   } 
 
   render() {
-    console.log(this.props.conteudoCarrinho)
-
     const valorTotal = this.props.conteudoCarrinho.reduce((valorInicial, cadaProduto) =>
       valorInicial + (cadaProduto.produtoAdicionado.price * cadaProduto.quantidade), 0
     )
+    
     const ccyFormat = (value) => {
       return Number(value).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
     }
@@ -111,16 +122,16 @@ class Carrinho extends React.Component {
               <TableCell align="right">
                 <SC.Quantidade>
                   <Fab color="primary" aria-label="Diminuir"
-                    onClick={() => this.diminuiQuantidade(cadaProduto.id)}>
+                    onClick={() => this.diminuiQuantidade(cadaProduto.produtoAdicionado)}>
                     <RemoveIcon />
                   </Fab>
                   {cadaProduto.quantidade}
                   <Fab color="primary" aria-label="Aumentar"
-                    onClick={() => this.aumentaQuantidade(cadaProduto.id)}>
+                    onClick={() => this.aumentaQuantidade(cadaProduto.produtoAdicionado)}>
                     <AddIcon />
                   </Fab>
                   <Fab color="secondary" aria-label="Remover"
-                    onClick={() => this.removerProduto(cadaProduto.id)}>
+                    onClick={() => this.removerProduto(cadaProduto.produtoAdicionado)}>
                     <DeleteIcon />
                   </Fab>
                 </SC.Quantidade>
