@@ -1,4 +1,5 @@
 import React from 'react'
+import * as S from './styles/StylesAppContainer'
 
 import { withStyles } from "@material-ui/core/styles";
 import { fade } from '@material-ui/core/styles/colorManipulator';
@@ -163,15 +164,16 @@ class AppContainer extends React.Component {
 		return <div>
 			<AppBar position='static' color='primary'>
 				<Toolbar>
-					<img src={require('../img/logo.png')} width='50' alt='logo' />
+						<S.Img
+							src={require('../img/logo.png')} 
+							alt='logo'
+							onClick={this.mudaBotao}
+						/>
 					{botoes}
 				</Toolbar>
 			</AppBar>
-
 			{telaAtual}
-
 		</div>
-
 	}
 }
 
