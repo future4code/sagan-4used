@@ -1,7 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
 import axios from 'axios'
-
 import TextField from "@material-ui/core/TextField";
 import Checkbox from '@material-ui/core/Checkbox';
 import Button from '@material-ui/core/Button';
@@ -10,30 +8,7 @@ import FormControl from '@material-ui/core/FormControl';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
-
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 1rem;
-`
-const DivSuperior = styled.div`
-display: flex;
-margin: 2rem;
-`
-const DivTextField = styled.div`
-display: flex;
-flex-direction: column;
-margin-right: 2vw;
-width: 100%;
-`
-const DivForm = styled.div`
-display: flex;
-flex-direction: column;
-margin: auto;
-`
-
+import * as STF from './styles/StylesTelaFornecedor';
 
 class TelaFornecedor extends React.Component {
 	constructor(props) {
@@ -216,10 +191,10 @@ class TelaFornecedor extends React.Component {
 	}
 
 	render() {
-		return <Wrapper>
+		return <STF.Wrapper>
 			<h1>Fornecedor</h1>
-			<DivSuperior>
-				<DivTextField>
+			<STF.DivSuperior>
+				<STF.DivTextField>
 					<TextField
 						name="inputNome"
 						required
@@ -294,8 +269,8 @@ class TelaFornecedor extends React.Component {
 						margin="normal"
 						variant="outlined"
 					/>
-				</DivTextField>
-				<DivForm>
+				</STF.DivTextField>
+				<STF.DivForm>
 					<FormControl required error={this.state.metodoPgOk} component="fieldset">
 						<FormLabel component="legend">Formas de Pagamento</FormLabel>
 						<FormGroup>
@@ -330,12 +305,12 @@ class TelaFornecedor extends React.Component {
 							/>
 						</FormGroup><FormHelperText>*CUIDADO: Pagamentos em dinheiro exigem encontro pessoal </FormHelperText>
 					</FormControl>
-				</DivForm>
-			</DivSuperior>
+				</STF.DivForm>
+			</STF.DivSuperior>
 			<Button variant='contained' color='primary' size='large' onClick={this.verificaDados}>
 				Cadastrar
 			</Button>
-		</Wrapper>
+		</STF.Wrapper>
 
 	}
 }

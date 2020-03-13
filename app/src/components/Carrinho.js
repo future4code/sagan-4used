@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -11,32 +10,7 @@ import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 import DeleteIcon from '@material-ui/icons/Delete';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 1rem;
-`
-const Cupom = styled.div`
-display: flex;
-justify-content:center;
-align-items:baseline;
->button{
-  margin:10px;
-}
-`
-const Quantidade = styled.div`
-display: flex;
-justify-content:center;
-align-items:center;
->button{
-  margin:15px;
-  width:30px;
-  height:30px;
-}
-`
-
+import * as SC from './styles/StylesCarrinho';
 
 class Carrinho extends React.Component {
   constructor(props) {
@@ -89,7 +63,7 @@ class Carrinho extends React.Component {
   }
 
   removerProduto = (produtoId) => {
-    //this.props.alteraCarrinho(produtoId, 0)
+    // this.props.alteraCarrinho(produtoId, 0)
   }
 
   aumentaQuantidade = (produtoId) => {
@@ -114,7 +88,7 @@ class Carrinho extends React.Component {
 
     const desconto = this.cupomDeDesconto()
 
-    return <Wrapper>
+    return <SC.Wrapper>
       <h1>Carrinho</h1>
       <Table>
         <TableHead>
@@ -135,7 +109,7 @@ class Carrinho extends React.Component {
                 </p>
               </TableCell>
               <TableCell align="right">
-                <Quantidade>
+                <SC.Quantidade>
                   <Fab color="primary" aria-label="Diminuir"
                     onClick={() => this.diminuiQuantidade(cadaProduto.id)}>
                     <RemoveIcon />
@@ -149,7 +123,7 @@ class Carrinho extends React.Component {
                     onClick={() => this.removerProduto(cadaProduto.id)}>
                     <DeleteIcon />
                   </Fab>
-                </Quantidade>
+                </SC.Quantidade>
               </TableCell>
               <TableCell align="right">
                 <span>
@@ -165,7 +139,7 @@ class Carrinho extends React.Component {
           )}
           <TableRow>
             <TableCell rowSpan={3}>
-              <Cupom>
+              <SC.Cupom>
                 <TextField
                   id="cupom"
                   placeholder="Ex: 4USED"
@@ -185,7 +159,7 @@ class Carrinho extends React.Component {
                 >
                   Aplicar
               </Button>
-              </Cupom>
+              </SC.Cupom>
             </TableCell>
             <TableCell colSpan={2}>Valor da Compra</TableCell>
             <TableCell align="right">
@@ -207,7 +181,7 @@ class Carrinho extends React.Component {
           </TableRow>
         </TableBody>
       </Table>
-    </Wrapper>
+    </SC.Wrapper>
   }
 }
 

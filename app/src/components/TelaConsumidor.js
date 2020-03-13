@@ -1,44 +1,9 @@
 import React from 'react'
-import styled from 'styled-components'
 import axios from 'axios'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import ConteudoCartao from './ConteudoCartao';
-
-const Wrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	padding: 1rem;
-`
-
-const MainDiv = styled.div`
-	display: grid;
-	grid-template-columns: 1fr 3fr;
-`
-
-const ValuesContainer = styled.div`
-display:flex;
-flex-direction: column;
-padding: 1vh 1vw;
-align-items: center;
-`
-
-const CardsContainer = styled.div`
-display: flex;
-flex-wrap:wrap;
-margin: auto;
-padding: 5px;
-`
-
-const CategoryFilterDiv = styled.div`
-border-radius: 30px;
-display: flex;
-justify-content: space-evenly;
-width: 80vw;
-margin-bottom: 8vh;
-padding: 1vh 1vw;
-`
+import * as STC from './styles/StylesTelaConsumidor';
 
 const baseURL = `https://us-central1-future-apis.cloudfunctions.net/fourUsed`
 
@@ -326,18 +291,18 @@ let lista
 		}
 
 		return (
-			<Wrapper>
-				<CategoryFilterDiv>
+			<STC.Wrapper>
+				<STC.CategoryFilterDiv>
 					<Button onClick={()=> this.escolherCategoria("roupas")} variant="contained" color="secondary" size="large">Roupas</Button>
 					<Button onClick={()=> this.escolherCategoria("artigosDeDecoracao")} variant="contained" color="secondary" size="large">Artigos de decoração</Button>
 					<Button onClick={()=> this.escolherCategoria("calcados")} variant="contained" color="secondary" size="large">Calçados</Button>
 					<Button onClick={()=> this.escolherCategoria("eletronicos")} variant="contained" color="secondary" size="large">Eletrônicos</Button>
 					<Button onClick={()=> this.escolherCategoria("moveis")} variant="contained" color="secondary" size="large">Móveis</Button>
 					<Button onClick={()=> this.escolherCategoria("")} variant="contained" color="secondary" size="large">Todas as Categorias</Button>
-				</CategoryFilterDiv>
+				</STC.CategoryFilterDiv>
 
-				<MainDiv>
-					<ValuesContainer>
+				<STC.MainDiv>
+					<STC.ValuesContainer>
 						<TextField
 							type="number"
 							label="Valor Mínimo:"
@@ -376,14 +341,14 @@ let lista
 							
 </TextField>
 					
-					</ValuesContainer>
+					</STC.ValuesContainer>
 
-					<CardsContainer>
+					<STC.CardsContainer>
 						{listaDeItens}
-					</CardsContainer>
-				</MainDiv>
+					</STC.CardsContainer>
+				</STC.MainDiv>
 
-			</Wrapper>
+			</STC.Wrapper>
 		)
 	}
 }
