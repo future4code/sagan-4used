@@ -333,6 +333,7 @@ let lista
 					<Button onClick={()=> this.escolherCategoria("calcados")} variant="contained" color="secondary" size="large">Calçados</Button>
 					<Button onClick={()=> this.escolherCategoria("eletronicos")} variant="contained" color="secondary" size="large">Eletrônicos</Button>
 					<Button onClick={()=> this.escolherCategoria("moveis")} variant="contained" color="secondary" size="large">Móveis</Button>
+					<Button onClick={()=> this.escolherCategoria("")} variant="contained" color="secondary" size="large">Todas as Categorias</Button>
 				</CategoryFilterDiv>
 
 				<MainDiv>
@@ -373,7 +374,6 @@ let lista
 							<option value={'categoriaAZ'}>Categoria (A -Z)</option>
 							<option value={'categoriaZA'}>Categoria (Z - A)</option>
 							
-							{/* <option value={'moveis'}>Móveis</option> */}
 </TextField>
 					
 					</ValuesContainer>
