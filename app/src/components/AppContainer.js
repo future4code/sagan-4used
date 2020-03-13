@@ -84,6 +84,10 @@ class AppContainer extends React.Component {
 		this.setState({ pesquisa: digitado })
 	}
 
+	limpaPesquisa =()=>{
+		this.setState({pesquisa:''})
+	}
+
 	atualizaCarrinho = (par) => {
 		this.setState({ novoCarrinho: par})
 	}
@@ -143,6 +147,7 @@ class AppContainer extends React.Component {
 						inputPesquisa={this.state.pesquisa}
 						mudaCarrinho={this.atualizaCarrinho}
 						carrinho={this.state.novoCarrinho}
+						pesquisa={this.limpaPesquisa}
 					/>
 					break;
 				case 'fornecedor':

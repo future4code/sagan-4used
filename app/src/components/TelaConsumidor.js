@@ -26,6 +26,10 @@ class TelaConsumidor extends React.Component {
 		this.pegarProdutos()
 	}
 
+	componentWillUnmount(){
+		this.props.pesquisa()
+	}
+
 	pegarProdutos = async () => {
 		try {
 			const response = await axios.get(`${baseURL}/products`)
