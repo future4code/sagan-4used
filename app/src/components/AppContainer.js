@@ -69,7 +69,7 @@ class AppContainer extends React.Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			botaoAtual: 'consumidor',
+			botaoAtual: '',
 			pesquisa: '',
 			novoCarrinho: []
 		}
@@ -113,7 +113,7 @@ class AppContainer extends React.Component {
 				<div className={classes.grow} />
 				<div>
 					<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('carrinho')} className={classes.btnTelaConsumidor}>Carrinho</Button>
-					<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
+					<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('fornecedor')}>	QUERO VENDER </Button>
 				</div>
 			</>
 		)
@@ -121,7 +121,7 @@ class AppContainer extends React.Component {
 		const botoesFornecedor = (
 			<>
 				<div className={classes.grow} />
-				<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('home')}>Home</Button>
+				<Button variant="outlined" color='secondary' onClick={() => this.mudaBotao('consumidor')}>QUERO COMPRAR </Button>
 			</>
 		)
 

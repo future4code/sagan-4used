@@ -338,7 +338,7 @@ let lista
 				<MainDiv>
 					<ValuesContainer>
 						<TextField
-							// error={this.state.inputDescricaoOK}
+							type="number"
 							label="Valor Mínimo:"
 							value={this.state.filtroMin}
 							onChange={this.mudouFiltroMinimo}
@@ -346,7 +346,7 @@ let lista
 							variant="outlined"
 						/>
 						<TextField
-							// error={this.state.inputDescricaoOK}
+							type="number"
 							label="Valor Máximo:"
 							value={this.state.filtroMax}
 							onChange={this.mudouFiltroMaximo}
