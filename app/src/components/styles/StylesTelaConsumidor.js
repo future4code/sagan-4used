@@ -9,7 +9,7 @@ export const Wrapper = styled.div`
 
 export const MainDiv = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 3fr;
+	grid-template-columns: 25vw 75vw;
 `
 
 export const ValuesContainer = styled.div`
@@ -22,7 +22,6 @@ align-items: center;
 export const CardsContainer = styled.div`
 display: flex;
 flex-wrap:wrap;
-margin: auto;
 padding: 5px;
 `
 

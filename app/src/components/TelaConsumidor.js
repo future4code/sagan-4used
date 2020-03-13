@@ -17,7 +17,6 @@ class TelaConsumidor extends React.Component {
 			filtroMin: '',
 			filtroMax: '',
 			ordem: '',
-			carrinho: []
 		}
 	}
 
@@ -70,10 +69,10 @@ class TelaConsumidor extends React.Component {
 		})
 	}
 
-	adicionaProduto = (produtoAdicionado) => {
-		const copiaCarrinho = [...this.state.carrinho]
+	adicionaProdutoCarrinho = (produtoAdicionado) => {
+		const copiaCarrinho = [...this.props.carrinho]
 
-		const produtoEstaNoCarrinho = this.state.carrinho.findIndex(cadaProduto =>
+		const produtoEstaNoCarrinho = this.props.carrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
 
 		if (produtoEstaNoCarrinho > -1) {
@@ -84,10 +83,6 @@ class TelaConsumidor extends React.Component {
 				quantidade: 1
 			})
 		}
-
-		this.setState({
-			carrinho: copiaCarrinho, // atualiza conteudo do carrinho no estado
-		})
 		this.props.mudaCarrinho(copiaCarrinho)
 	}
 
@@ -156,7 +151,7 @@ class TelaConsumidor extends React.Component {
 				installments={produto.installments}
 				cardAtivo={this.state.idCardAtivo}
 				funcaoCardAtivo={this.atulizaCardAtivo}
-				adicionaProduto={this.adicionaProduto}
+				adicionaProduto={this.adicionaProdutoCarrinho}
 			/>
 		))
 
