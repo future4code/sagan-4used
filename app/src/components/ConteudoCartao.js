@@ -10,7 +10,7 @@ import Typography from '@material-ui/core/Typography';
 
 const styles = {
 	card: {
-		width: '20%',
+		width: '14vw',
 		height: '35vh',
 		display: "flex",
 		transition: 'width 1s, height 1s, translate 2s',
@@ -21,7 +21,7 @@ const styles = {
 		textAlign: "center",
 	},
 	cardDetalhes: {
-		width: '45%',
+		width: '28vw',
 		height: '70vh',
 	},
 	media: {

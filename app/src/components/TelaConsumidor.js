@@ -13,7 +13,7 @@ class TelaConsumidor extends React.Component {
 		this.state = {
 			listaDeProdutosState: [],
 			categoriaAtualState: '',
-			idCardAtivo:'',
+			idCardAtivo: '',
 			filtroMin: '',
 			filtroMax: '',
 			ordem: '',
@@ -21,36 +21,28 @@ class TelaConsumidor extends React.Component {
 		}
 	}
 
-	componentDidMount(){
-		//executa a funcao pegarProdutos quando a TelaConsumidor abre, mostrando todos os produtos
-		//dentro do grid
+	componentDidMount() {
 		this.pegarProdutos()
 	}
 
-	pegarProdutos = async () =>{
-		try{	
+	pegarProdutos = async () => {
+		try {
 			const response = await axios.get(`${baseURL}/products`)
-			//A linha acima pega a informacao do GET da API
 
 			const listaDeProdutosVar = response.data.products
-			//Definida uma variavel para armazenar as informacoes dentro do Response -> Data -> Products
-			//Exatamente onde estao os dados dos produtos da API
-
 			this.setState({
 				listaDeProdutosState: listaDeProdutosVar
-				//Pega as informacoes do response.data.products e as armazena no state, para podermos
-				//as utilizar com menos chance de erros.
 			})
 		}
-		catch(error){
+		catch (error) {
 			console.log(error)
 			alert("Houve um erro na busca dos produtos.")
 		}
 	}
 
-	atulizaCardAtivo = (id) =>{
+	atulizaCardAtivo = (id) => {
 		this.setState({
-			idCardAtivo:id
+			idCardAtivo: id
 		})
 	}
 
@@ -81,11 +73,9 @@ class TelaConsumidor extends React.Component {
 	adicionaProduto = (produtoAdicionado) => {
 		const copiaCarrinho = [...this.state.carrinho]
 
-		// checo se o produto tá no carrinho
 		const produtoEstaNoCarrinho = this.state.carrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
 
-		// se já tá no carrinho, só adiciono 1 na quantidade (paramentro novo que to criando)
 		if (produtoEstaNoCarrinho > -1) {
 			copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
 		} else { // se é a primeira vez
@@ -99,196 +89,76 @@ class TelaConsumidor extends React.Component {
 			carrinho: copiaCarrinho, // atualiza conteudo do carrinho no estado
 		})
 		this.props.mudaCarrinho(copiaCarrinho)
-}
+	}
 
 	render() {
-
-		let listaOrdenada
-		if (this.state.ordem === 'crescente') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.price < b.price ? -1 : a.price > b.price ? 1 : 0
-			})
-		} else if (this.state.ordem === 'decrescente') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.price < b.price ? 1 : a.price > b.price ? -1 : 0
-			})
-		} else if (this.state.ordem === 'nomeZA') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.name.toLowerCase() < b.name.toLowerCase() ? 1 : a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 0
-			})
-		} else if (this.state.ordem === 'nomeAZ') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0
-			})
-		}
-		else if (this.state.ordem === 'categoriaZA') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.category < b.category ? 1 : a.category > b.category ? -1 : 0
-			})
-		} else if (this.state.ordem === 'categoriaAZ') {
-			listaOrdenada = this.state.listaDeProdutosState.sort(function (a, b) {
-				return a.category < b.category ? -1 : a.category > b.category ? 1 : 0
-			})
-		}
-
-
-let lista
-		if (listaOrdenada) {
-			lista = listaOrdenada
-		} else {
-			lista = this.state.listaDeProdutosState
-		}
-
-
-		let listaNaoFiltrada = lista.map((produto, index) => (
-				<ConteudoCartao
-				cadaProduto={produto}				
-				key={index}
-								id={produto.id}
-								category={produto.category}
-								price={produto.price}
-								description={produto.description}
-								paymentMethod={produto.paymentMethod}
-								imagem={produto.photos[0]}
-								nomeDoProduto={produto.name}
-								installments={produto.installments}
-								cardAtivo={this.state.idCardAtivo}
-								funcaoCardAtivo={this.atulizaCardAtivo}
-								adicionaProduto={this.adicionaProduto}
-							/>
+		let filtrarMinimo = this.state.listaDeProdutosState.filter(elemento => (
+			this.state.filtroMin ? elemento.price >= this.state.filtroMin : true
+		))
+		let filtrarMaximo = filtrarMinimo.filter(elemento => (
+			this.state.filtroMax ? elemento.price <= this.state.filtroMax : true
+		))
+		let filtrarPesquisa = filtrarMaximo.filter(elemento => (
+			this.props.inputPesquisa ? elemento.name.toLowerCase().includes((this.props.inputPesquisa).toLowerCase()) : true
+		))
+		let filtrarCategoria = filtrarPesquisa.filter(elemento => (
+			this.state.categoriaAtualState ? elemento.category.includes(this.state.categoriaAtualState) : true
 		))
 
-		let listaFiltrada = lista.filter(cadaProduto => {
-			let filtroBusca  = this.props.inputPesquisa
-			let filtroMin = this.state.filtroMin
-			let filtroMax = this.state.filtroMax
-			let categoria = this.state.categoriaAtualState
-
-			let valorDoProduto = Number(cadaProduto.price)
-
-			// 	TODOS OS FILTROS
-			if (filtroBusca && filtroMin && filtroMax && categoria) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto >= filtroMin &&
-					valorDoProduto <= filtroMax &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-			// TRÊS
-			if (filtroBusca && filtroMin && filtroMax) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto >= filtroMin &&
-					valorDoProduto <= filtroMax
-				)
-			}
-
-			if (filtroBusca && filtroMin && categoria) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto >= filtroMin &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-			if (filtroBusca && filtroMax && categoria) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto <= filtroMax &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-			if (filtroMin && filtroMax && categoria) {
-				return (
-					valorDoProduto >= filtroMin &&
-					valorDoProduto <= filtroMax &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-			// DOIS
-
-			if (filtroBusca && filtroMin) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto >= filtroMin
-				)
-			}
-			if (filtroBusca && filtroMax) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					valorDoProduto <= filtroMax
-				)
-			}
-			if (filtroBusca && categoria) {
-				return (
-					cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase()) &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-			if (filtroMin && filtroMax) {
-				return (
-					valorDoProduto >= filtroMin &&
-					valorDoProduto <= filtroMax)
-			}
-			if (filtroMin && categoria) {
-				return (
-					valorDoProduto >= filtroMin &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-			if (filtroMax && categoria) {
-				return (
-					valorDoProduto <= filtroMax &&
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-			// SÓ UM
-			if (filtroBusca) {
-				return cadaProduto.name.toLowerCase().includes((filtroBusca).toLowerCase())
-			}
-			if (filtroMin) {
-				return valorDoProduto >= filtroMin
-			}
-			if (filtroMax) {
-				return valorDoProduto <= filtroMax
-			}
-			if (categoria) {
-				return (
-					cadaProduto.category.includes(categoria)
-				)
-			}
-
-
-			return listaNaoFiltrada
-		}).map((produto, index) => (
-				<ConteudoCartao
-				cadaProduto={produto}				
-				key={index}
-								id={produto.id}
-								category={produto.category}
-								price={produto.price}
-								description={produto.description}
-								paymentMethod={produto.paymentMethod}
-								imagem={produto.photos[0]}
-								nomeDoProduto={produto.name}
-								installments={produto.installments}
-								cardAtivo={this.state.idCardAtivo}
-								funcaoCardAtivo={this.atulizaCardAtivo}
-								adicionaProduto={this.adicionaProduto}
-							/>
-		))
-
-		let listaDeItens
-		if (this.state.categoriaAtualState || this.state.filtroMin || this.state.filtroMax || this.props.inputPesquisa) {
-			listaDeItens = listaFiltrada
-		} else {
-			listaDeItens = listaNaoFiltrada
+		let listaOrdenada = []
+		switch (this.state.ordem) {
+			case 'crescente':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.price < b.price ? -1 : a.price > b.price ? 1 : 0
+				})
+				break;
+			case 'decrescente':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.price < b.price ? 1 : a.price > b.price ? -1 : 0
+				})
+				break;
+			case 'nomeZA':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.name.toLowerCase() < b.name.toLowerCase() ? 1 : a.name.toLowerCase() > b.name.toLowerCase() ? -1 : 0
+				})
+				break;
+			case 'nomeAZ':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : a.name.toLowerCase() > b.name.toLowerCase() ? 1 : 0
+				})
+				break;
+			case 'categoriaZA':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.category < b.category ? 1 : a.category > b.category ? -1 : 0
+				})
+				break;
+			case 'categoriaAZ':
+				listaOrdenada = filtrarCategoria.sort(function (a, b) {
+					return a.category < b.category ? -1 : a.category > b.category ? 1 : 0
+				})
+				break;
+			default:
+				listaOrdenada = filtrarCategoria
+				break;
 		}
+
+		let produtosMostrados = listaOrdenada.map((produto, index) => (
+			<ConteudoCartao
+				cadaProduto={produto}
+				key={index}
+				id={produto.id}
+				category={produto.category}
+				price={produto.price}
+				description={produto.description}
+				paymentMethod={produto.paymentMethod}
+				imagem={produto.photos[0]}
+				nomeDoProduto={produto.name}
+				installments={produto.installments}
+				cardAtivo={this.state.idCardAtivo}
+				funcaoCardAtivo={this.atulizaCardAtivo}
+				adicionaProduto={this.adicionaProduto}
+			/>
+		))
 
 		return (
 			<STC.Wrapper>
@@ -338,16 +208,14 @@ let lista
 							<option value={'nomeZA'}>Nome (Z - A)</option>
 							<option value={'categoriaAZ'}>Categoria (A -Z)</option>
 							<option value={'categoriaZA'}>Categoria (Z - A)</option>
-							
-</TextField>
+            </TextField>
 					
 					</STC.ValuesContainer>
 
 					<STC.CardsContainer>
-						{listaDeItens}
+						{produtosMostrados}
 					</STC.CardsContainer>
 				</STC.MainDiv>
-
 			</STC.Wrapper>
 		)
 	}
