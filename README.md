@@ -9,7 +9,7 @@ Desenvolvimento de aplicações completas, incluindo frontend Web com React e ba
 
 [Site do projeto](http://sagan-4used.surge.sh/)
 
-![4used](https://wn80dg.bn.files.1drv.com/y4pmMujHqKKnGOj4F8MHVFopTqvLdRd0z2v4hcw4dKgrrA_DmBPDT6NL18I67pByDBdt-olAThk-e22brtf1t9ilLh8S7PollO7p_3A6IJqOW5U0CJC3I5nFJWfCNcq-85s6vbc4jFsPpzpvkLFpP-pBtKuGf5EP9rX5gpGrkeXSifMaz3iqIHoHgJU1xxnEuAjnBcRyuNKNzT7FLMEfOCUDNe9881pf4zu0tcYZisQR3U/4used.gif?download&psid=1)
+![4used]()
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/future4code/sagan-4used">
@@ -74,8 +74,3 @@ A plataforma servirá para 2 tipos de clientes:
     - Número de parcelas
 
 <br><br>
-
-
-#### Desafios
-
-- 
