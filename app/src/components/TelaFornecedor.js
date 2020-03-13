@@ -110,8 +110,6 @@ class TelaFornecedor extends React.Component {
 		Object.keys(metodoPgcp).forEach(elemento => {
 			if (elemento === event.target.name) {
 				metodoPgcp[elemento] = event.target.checked
-			} else {
-				metodoPgcp[elemento] = metodoPgcp[elemento]
 			}
 		})
 		this.setState({

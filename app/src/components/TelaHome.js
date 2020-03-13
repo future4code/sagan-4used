@@ -1,14 +1,12 @@
 import React from 'react'
+
 import Button from '@material-ui/core/Button';
+
 import * as STH from './styles/StylesTelaHome';
 
-
 function TelaHome(props) {
-
-	return (<STH.Wrapper>
-
+	return <STH.Wrapper>
 		<STH.LogoPrincipal src={require('../img/logo2.png')} alt='Logo'/>
-
 		<STH.DivDosBotoes>
 			<Button  variant='contained' color='primary' onClick={() => props.funcao('consumidor')}>
 				Consumidor
@@ -17,9 +15,7 @@ function TelaHome(props) {
 				Fornecedor
 			</Button>
 		</STH.DivDosBotoes>
-
-	</STH.Wrapper>)
-
+	</STH.Wrapper>
 }
 
 export default TelaHome;
