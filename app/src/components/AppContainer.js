@@ -85,7 +85,7 @@ class AppContainer extends React.Component {
 		// passar o resultado dessa pesquisa como props
 	}
 
-	carrinho = (par) => {
+	atualizaCarrinho = (par) => {
 		this.setState({ novoCarrinho: par})
 	}
 
@@ -142,7 +142,8 @@ class AppContainer extends React.Component {
 					botoes = botoesConsumidor
 					telaAtual = <TelaConsumidor 
 						inputPesquisa={this.state.pesquisa}
-						mudaCarrinho={this.carrinho}
+						mudaCarrinho={this.atualizaCarrinho}
+						carrinho={this.state.novoCarrinho}
 					/>
 					break;
 				case 'fornecedor':
