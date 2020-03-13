@@ -82,7 +82,7 @@ class Carrinho extends React.Component {
     const copiaCarrinho = [...this.props.conteudoCarrinho]
 		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
-		if (copiaCarrinho[produtoEstaNoCarrinho].quantidade > 1) { // para em zero
+		if (copiaCarrinho[produtoEstaNoCarrinho].quantidade > 1) {
 			copiaCarrinho[produtoEstaNoCarrinho].quantidade -= 1
 		}
 		this.props.mudaCarrinho(copiaCarrinho)
@@ -112,7 +112,7 @@ class Carrinho extends React.Component {
         </TableHead>
         <TableBody>
           {this.props.conteudoCarrinho.map(cadaProduto =>
-            <TableRow key={cadaProduto.id}>
+            <TableRow key={cadaProduto.produtoAdicionado.id}>
               <TableCell>
                 <img src={cadaProduto.produtoAdicionado.photos[0]} alt='Logo' width="150px" />
                 <p>

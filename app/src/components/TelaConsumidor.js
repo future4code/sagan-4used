@@ -1,8 +1,10 @@
 import React from 'react'
 import axios from 'axios'
+
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import ConteudoCartao from './ConteudoCartao';
+
 import * as STC from './styles/StylesTelaConsumidor';
 
 const baseURL = `https://us-central1-future-apis.cloudfunctions.net/fourUsed`
@@ -62,7 +64,7 @@ class TelaConsumidor extends React.Component {
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
 		if (produtoEstaNoCarrinho > -1) {
 			copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
-		} else { // se é a primeira vez
+		} else {
 			copiaCarrinho.push({
 				produtoAdicionado: produtoAdicionado,
 				quantidade: 1
@@ -79,7 +81,7 @@ class TelaConsumidor extends React.Component {
 			this.state.filtroMax ? elemento.price <= this.state.filtroMax : true
 		))
 		let filtrarPesquisa = filtrarMaximo.filter(elemento => (
-			this.props.inputPesquisa ? elemento.name.toLowerCase().includes((this.props.inputPesquisa).toLowerCase()) : true
+			this.props.inputPesquisa ? elemento.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((this.props.inputPesquisa).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) : true
 		))
 		let filtrarCategoria = filtrarPesquisa.filter(elemento => (
 			this.state.categoriaAtualState ? elemento.category.includes(this.state.categoriaAtualState) : true
@@ -182,13 +184,14 @@ class TelaConsumidor extends React.Component {
 							variant="outlined"
 						>
 							<option hidden value=''></option>
+							<option value=''>Sem filtro</option>
 							<option value={'crescente'}>Menor Preço</option>
 							<option value={'decrescente'}>Maior Preço</option>
 							<option value={'nomeAZ'}>Nome (A -Z)</option>
 							<option value={'nomeZA'}>Nome (Z - A)</option>
 							<option value={'categoriaAZ'}>Categoria (A -Z)</option>
 							<option value={'categoriaZA'}>Categoria (Z - A)</option>
-            </TextField>
+           				</TextField>
 					
 					</STC.ValuesContainer>
 
