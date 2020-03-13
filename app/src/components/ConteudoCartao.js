@@ -40,9 +40,7 @@ const styles = {
 class ConteudoCartao extends React.Component {
 	constructor(props) {
 		super(props)
-		this.state = {
-			mostraDetalhes: false
-		}
+		this.state = { mostraDetalhes: false }
 	}
 
 	componentDidUpdate() {

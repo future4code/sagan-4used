@@ -1,13 +1,12 @@
 import React from 'react'
 
 import { withStyles } from "@material-ui/core/styles";
+import { fade } from '@material-ui/core/styles/colorManipulator';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-
 import InputBase from '@material-ui/core/InputBase';
 import SearchIcon from '@material-ui/icons/Search';
-import { fade } from '@material-ui/core/styles/colorManipulator';
 
 import TelaHome from './TelaHome';
 import TelaConsumidor from './TelaConsumidor';
@@ -82,7 +81,6 @@ class AppContainer extends React.Component {
 	mudaPesquisa = (event) => {
 		const digitado = event.target.value
 		this.setState({ pesquisa: digitado })
-		// passar o resultado dessa pesquisa como props
 	}
 
 	atualizaCarrinho = (par) => {
@@ -154,6 +152,7 @@ class AppContainer extends React.Component {
 					botoes = botoesCarrinho
 					telaAtual = <Carrinho 
 						conteudoCarrinho={this.state.novoCarrinho}
+						mudaCarrinho={this.atualizaCarrinho}
 					/>
 					break
 			default:

@@ -27,11 +27,8 @@ class TelaConsumidor extends React.Component {
 	pegarProdutos = async () => {
 		try {
 			const response = await axios.get(`${baseURL}/products`)
-
 			const listaDeProdutosVar = response.data.products
-			this.setState({
-				listaDeProdutosState: listaDeProdutosVar
-			})
+			this.setState({ listaDeProdutosState: listaDeProdutosVar })
 		}
 		catch (error) {
 			console.log(error)
@@ -40,41 +37,29 @@ class TelaConsumidor extends React.Component {
 	}
 
 	atulizaCardAtivo = (id) => {
-		this.setState({
-			idCardAtivo: id
-		})
+		this.setState({ idCardAtivo: id })
 	}
 
 	escolherCategoria = (categoria) => {
-		this.setState({
-			categoriaAtualState: categoria,
-		})
+		this.setState({ categoriaAtualState: categoria })
 	}
 
 	mudouFiltroMinimo = (event) => {
-		this.setState({
-			filtroMin: event.target.value
-		})
+		this.setState({ filtroMin: event.target.value })
 	}
 
 	mudouFiltroMaximo = (event) => {
-		this.setState({
-			filtroMax: event.target.value
-		})
+		this.setState({ filtroMax: event.target.value })
 	}
 
 	mudaOrdenacao = (event) => {
-		this.setState({
-			ordem: event.target.value
-		})
+		this.setState({ ordem: event.target.value })
 	}
 
 	adicionaProdutoCarrinho = (produtoAdicionado) => {
 		const copiaCarrinho = [...this.props.carrinho]
-
 		const produtoEstaNoCarrinho = this.props.carrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
-
 		if (produtoEstaNoCarrinho > -1) {
 			copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
 		} else { // se é a primeira vez
