@@ -152,9 +152,7 @@ class AppContainer extends React.Component {
 					botoes = botoesCarrinho
 					telaAtual = <Carrinho 
 						conteudoCarrinho={this.state.novoCarrinho}
-						excluiDoCarrinho={this.atualizaCarrinho}
-						maisNoCarrinho={this.atualizaCarrinho}
-						menosNoCarrinho={this.atualizaCarrinho}
+						mudaCarrinho={this.atualizaCarrinho}
 					/>
 					break
 			default:

@@ -67,7 +67,7 @@ class Carrinho extends React.Component {
 		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
     copiaCarrinho.splice(produtoEstaNoCarrinho, 1)
-    this.props.excluiDoCarrinho(copiaCarrinho)
+    this.props.mudaCarrinho(copiaCarrinho)
   }
 
   aumentaQuantidade = (produtoAdicionado) => {
@@ -75,7 +75,7 @@ class Carrinho extends React.Component {
 		const produtoEstaNoCarrinho = this.props.conteudoCarrinho.findIndex(cadaProduto =>
 			cadaProduto.produtoAdicionado.id === produtoAdicionado.id)
 		copiaCarrinho[produtoEstaNoCarrinho].quantidade += 1
-		this.props.maisNoCarrinho(copiaCarrinho)
+		this.props.mudaCarrinho(copiaCarrinho)
   }
 
   diminuiQuantidade = (produtoAdicionado) => {
@@ -85,7 +85,7 @@ class Carrinho extends React.Component {
 		if (copiaCarrinho[produtoEstaNoCarrinho].quantidade > 1) { // para em zero
 			copiaCarrinho[produtoEstaNoCarrinho].quantidade -= 1
 		}
-		this.props.menosNoCarrinho(copiaCarrinho)
+		this.props.mudaCarrinho(copiaCarrinho)
   } 
 
   render() {
