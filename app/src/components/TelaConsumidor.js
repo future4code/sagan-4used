@@ -81,7 +81,7 @@ class TelaConsumidor extends React.Component {
 			this.state.filtroMax ? elemento.price <= this.state.filtroMax : true
 		))
 		let filtrarPesquisa = filtrarMaximo.filter(elemento => (
-			this.props.inputPesquisa ? elemento.name.toLowerCase().includes((this.props.inputPesquisa).toLowerCase()) : true
+			this.props.inputPesquisa ? elemento.name.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "").includes((this.props.inputPesquisa).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, "")) : true
 		))
 		let filtrarCategoria = filtrarPesquisa.filter(elemento => (
 			this.state.categoriaAtualState ? elemento.category.includes(this.state.categoriaAtualState) : true
