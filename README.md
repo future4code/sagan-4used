@@ -9,7 +9,7 @@ Desenvolvimento de aplicações completas, incluindo frontend Web com React e ba
 
 [Site do projeto](http://sagan-4used.surge.sh/)
 
-![4used]()
+![4used](https://i.ibb.co/Rv3cFHc/4used.gif)
 
 <p align="center">
   <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/future4code/sagan-4used">
@@ -20,10 +20,6 @@ Desenvolvimento de aplicações completas, incluindo frontend Web com React e ba
 
   <a href="https://github.com/future4code/sagan-4used/commits/master">
     <img alt="GitHub last commit" src="https://img.shields.io/github/last-commit/future4code/sagan-4used">
-  </a>
-
-  <a href="https://github.com/future4code/sagan-4used/issues">
-    <img alt="Repository issues" src="https://img.shields.io/github/issues/future4code/sagan-4used">
   </a>
 </p>
 <br>
@@ -72,5 +68,3 @@ A plataforma servirá para 2 tipos de clientes:
     - Categoria
     - Fotos (URLs)
     - Número de parcelas
-
-<br><br>
