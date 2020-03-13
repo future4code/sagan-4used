@@ -190,6 +190,19 @@ class Carrinho extends React.Component {
               {ccyFormat(valorTotal - (valorTotal * desconto))}
             </TableCell>
           </TableRow>
+					<TableRow>
+						<TableCell colSpan={4} rowSpan={2} align="right">
+						<Button
+                  variant="contained"
+									color="secondary"
+									size="large"
+                  onClick={() => window.alert('Essa função ainda não foi implementada')}
+                >
+                  Comprar
+              </Button>
+						</TableCell>
+					</TableRow>
+					<TableRow />
         </TableBody>
       </Table>
     </SC.Wrapper>
