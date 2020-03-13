@@ -75,6 +75,17 @@ class AppContainer extends React.Component {
 		}
 	}
 
+	componentDidUpdate(){     
+		localStorage.setItem('carrinho', JSON.stringify(this.state.novoCarrinho))   
+	}
+
+	componentDidMount(){      
+		const estadoRecuperado = JSON.parse(localStorage.getItem('carrinho'))     
+		if (estadoRecuperado){       
+			this.setState({novoCarrinho:estadoRecuperado})     
+		}   
+	}	
+
 	mudaBotao = (pagina) => {
 		this.setState({ botaoAtual: pagina })
 	}
